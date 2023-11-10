@@ -1,0 +1,35 @@
+.levelButtonComponent{
+    text-align: center;
+}
+
+.levelButtonBox{
+    width: 350px;
+    padding: 8%;
+    background-color: #D9D9D9;
+}
+
+.levelButton {
+    display: inline-block;
+    width: 8%;
+    height: 120px;
+    border-radius: 0px;
+    margin-left: 2%;
+    background-color: #f8f8f8;
+    cursor: pointer;
+}
+
+.levelButton:first-child{
+    margin-left: 0px;
+}
+
+.levelButtonFirst{
+    background-color: #ADF1AC;
+}
+
+.levelButtonSecond{
+    background-color: #FFF72F;
+}
+
+.levelButtonThird{
+    background-color: #FF2121;
+}
