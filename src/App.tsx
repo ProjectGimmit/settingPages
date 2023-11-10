@@ -9,24 +9,27 @@ import Toggle from './componets/toggle';
 import Key from './componets/key';
 import Level from './componets/level';
 import LightsOut from './componets/lightsOut';
+import { RecoilRoot } from 'recoil';
 // import About from './routes/about';
 // import Contact from './routes/contact';
 
 function App() {
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<Top />} />
-        <Route path="/config" element={<Config />} />
-        <Route path="/manual" element={<Manual />} />
-        <Route path="*" element={<NoMatch />} />
-        <Route path="/config/wire" element={<Wire />} />
-        <Route path="/config/toggle" element={<Toggle />} />
-        <Route path="/config/key" element={<Key />} />
-        <Route path="/config/level" element={<Level />} />
-        <Route path="/config/lightsOut" element={<LightsOut />} />
-      </Routes>
-    </div>
+    <RecoilRoot>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Top />} />
+          <Route path="/config" element={<Config />} />
+          <Route path="/manual" element={<Manual />} />
+          <Route path="*" element={<NoMatch />} />
+          <Route path="/config/wire" element={<Wire />} />
+          <Route path="/config/toggle" element={<Toggle />} />
+          <Route path="/config/key" element={<Key />} />
+          <Route path="/config/level" element={<Level />} />
+          <Route path="/config/lightsOut" element={<LightsOut />} />
+        </Routes>
+      </div>
+    </RecoilRoot>
   );
 }
 
