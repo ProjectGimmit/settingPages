@@ -1,17 +1,18 @@
-.levelButtonComponent{
+#levelButtonComponent{
     text-align: center;
+    padding: 15px;
 }
 
 .levelButtonBox{
-    width: 350px;
-    padding: 8%;
+    width: 300px;
+    padding: 25px;
     background-color: #D9D9D9;
 }
 
 .levelButton {
     display: inline-block;
     width: 8%;
-    height: 120px;
+    height: 80px;
     border-radius: 0px;
     margin-left: 2%;
     background-color: #f8f8f8;

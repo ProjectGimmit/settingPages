@@ -33,6 +33,10 @@ const Level = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | '
 
   const handleClick = (event: { target: { id: any; }; }) => {
     const clickedId = Number(event.target.id);
+    //clickedIdが1~10の場合のみ処理を行う
+    if (clickedId < 1 || clickedId > 10 || isNaN(clickedId)) {
+      return;
+    }
 
     const onlyFirstButtonLit = Array.from(document.getElementsByClassName('levelButtonFirst')).length === 1
       && !document.getElementsByClassName('levelButtonSecond').length
@@ -72,9 +76,9 @@ const Level = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | '
   }
 
   return (
-    <div className='levelButtonComponent'>
+    <div id='levelButtonComponent'>
       <h2>解除状態</h2>
-      <div className='levelButtonBox'>
+      <div className='levelButtonBox mx-auto'>
         {[...Array(10)].map((_, i) => (
           <div
             key={i + 1}

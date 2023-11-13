@@ -13,7 +13,7 @@ export const alarmsState = atom({
         },
         "toggleSW": {
           "enable": true,
-          "answer": 31
+          "answer": [true, true, true, true, true]
         },
         "keySW": {
           "enable": true,
@@ -40,7 +40,7 @@ export const alarmsState = atom({
           },
           "toggleSW": {
             "enable": true,
-            "answer": 31
+            "answer": [true, true, true, true, true]
           },
           "keySW": {
             "enable": true,
@@ -67,7 +67,7 @@ export const alarmsState = atom({
           },
           "toggleSW": {
             "enable": true,
-            "answer": 31
+            "answer": [true, true, true, true, true]
           },
           "keySW": {
             "enable": true,
@@ -94,7 +94,7 @@ export const alarmsState = atom({
           },
           "toggleSW": {
             "enable": true,
-            "answer": 31
+            "answer": [true, true, true, true, true]
           },
           "keySW": {
             "enable": true,
@@ -121,7 +121,7 @@ export const alarmsState = atom({
           },
           "toggleSW": {
             "enable": true,
-            "answer": 31
+            "answer": [true, true, true, true, true]
           },
           "keySW": {
             "enable": true,
@@ -148,7 +148,7 @@ export const alarmsState = atom({
           },
           "toggleSW": {
             "enable": true,
-            "answer": 31
+            "answer": [true, true, true, true, true]
           },
           "keySW": {
             "enable": true,
@@ -175,7 +175,7 @@ export const alarmsState = atom({
           },
           "toggleSW": {
             "enable": true,
-            "answer": 31
+            "answer": [true, true, true, true, true]
           },
           "keySW": {
             "enable": true,

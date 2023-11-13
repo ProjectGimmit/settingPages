@@ -1,0 +1,32 @@
+.configComponentBox {
+    background-color: white;
+}
+
+.configComponentBoxHeader{
+    display: flex;
+    justify-content: space-between;
+    background-color: aqua;
+    padding: 5px 0px;
+}
+
+body{
+    display: block;
+}
+
+#levelCheck{
+    width: 5em;
+    height: 2.5em;
+}
+
+.configComponentBoxTitle{
+    font-size : 1.5em;
+}
+
+.form-switch{
+    margin-right: 8px;
+}
+
+#wrapper {
+    height: 100vh;
+    background-color: #D9D9D9;
+}
