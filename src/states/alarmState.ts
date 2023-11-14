@@ -179,7 +179,7 @@ export const alarmsState = atom({
           },
           "keySW": {
             "enable": true,
-                    "pattern":[true,false],
+            "pattern":[true,false],
             "default": [true, true, true]
           },
           "lightsOut": {
