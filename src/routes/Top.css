@@ -1,0 +1,45 @@
+.container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background-color: black;
+}
+.app-name {
+    color: white;
+    margin-bottom: 20px;
+}
+.time-limit {
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+}
+.time {
+    color: red;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+.mon {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.day-of-week {
+    color: white;
+    font-size: 20px;
+    margin: auto;
+}
+.days-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.day {
+    margin: auto;
+}
+/* 
+input[type="time"]::-webkit-calendar-picker-indicator {
+    display: none;
+}
+ */
