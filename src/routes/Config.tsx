@@ -1,23 +1,24 @@
 import React,{useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
-import { alarmsState } from '../states/alarmState'
+import { dayAlarmState } from '../states/alarmState'
 import { useRecoilState } from 'recoil'
-import { sendAlarmSettingsToAPI,fetchAlarmSettingsFromAPI } from '../api/alarmApi'
+import { sendDayAlarmSettingsToAPI,fetchDayAlarmSettingsFromAPI } from '../api/alarmApi'
+import Key from '../components/key'
 import Level from '../components/level'
 import LightsOut from '../components/lightsOut'
 import Form from 'react-bootstrap/Form';
 import './Config.css'
 
 const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun' }) => {
-  const [alarms, setAlarms] = useRecoilState(alarmsState);
-  const updatedAlarmsStatus: typeof alarms = { ...alarms };
+  const [alarms, setAlarms] = useRecoilState(dayAlarmState);
+  let updatedAlarmsStatus: typeof alarms = { ...alarms };
   
   // 画面が最初に呼び出されたときにAPIから設定情報を取得
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await fetchAlarmSettingsFromAPI();
+        const data = await fetchDayAlarmSettingsFromAPI({day:day});
         setAlarms(data);
         init();
       } catch (error) {
@@ -28,12 +29,20 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
   }, []);
 
   const save = () => {
-    sendAlarmSettingsToAPI(alarms);
+    sendDayAlarmSettingsToAPI({day:day},alarms);
   }
 
   function init() {
+    //キースイッチの初期化
+    if (alarms.gimmick.keySW.enable) {
+      const keySWCheck = document.getElementById('keySWCheck') as HTMLInputElement;
+      keySWCheck.checked = true;
+    }
+    else {
+      componentDisplay('keySWComponent',false);
+    }
     //ライツアウトの初期化
-    if (alarms[day].gimmick.lightsOut.enable) {
+    if (alarms.gimmick.lightsOut.enable) {
       const lightsOutCheck = document.getElementById('lightsOutCheck') as HTMLInputElement;
       lightsOutCheck.checked = true;
     }
@@ -41,7 +50,7 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
       componentDisplay('lightsOutButtonComponent',false);
     }
     //レベルメーターの初期化
-    if (alarms[day].gimmick.level.enable) {
+    if (alarms.gimmick.level.enable) {
       const levelCheck = document.getElementById('levelCheck') as HTMLInputElement;
       levelCheck.checked = true;
     }
@@ -63,24 +72,24 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
 
   function Check(gimmick : string) {
     if(gimmick === 'wires'){
-      updatedAlarmsStatus[day] = { ...alarms[day], gimmick: { ...alarms[day].gimmick, wires: { ...alarms[day].gimmick.wires, enable : !alarms[day].gimmick.wires.enable} } };
-      componentDisplay('wiresComponent',!alarms[day].gimmick.wires.enable);
+      updatedAlarmsStatus = { ...alarms, gimmick: { ...alarms.gimmick, wires: { ...alarms.gimmick.wires, enable : !alarms.gimmick.wires.enable} } };
+      componentDisplay('wiresComponent',!alarms.gimmick.wires.enable);
     }
     else if(gimmick === 'toggleSW'){
-      updatedAlarmsStatus[day] = { ...alarms[day], gimmick: { ...alarms[day].gimmick, toggleSW: { ...alarms[day].gimmick.toggleSW, enable : !alarms[day].gimmick.toggleSW.enable} } };
-      componentDisplay('toggleSWComponent',!alarms[day].gimmick.toggleSW.enable);
+      updatedAlarmsStatus = { ...alarms, gimmick: { ...alarms.gimmick, toggleSW: { ...alarms.gimmick.toggleSW, enable : !alarms.gimmick.toggleSW.enable} } };
+      componentDisplay('toggleSWComponent',!alarms.gimmick.toggleSW.enable);
     }
     else if(gimmick === 'keySW'){
-      updatedAlarmsStatus[day] = { ...alarms[day], gimmick: { ...alarms[day].gimmick, keySW: { ...alarms[day].gimmick.keySW, enable : !alarms[day].gimmick.keySW.enable} } };
-      componentDisplay('keySWComponent',!alarms[day].gimmick.keySW.enable);
+      updatedAlarmsStatus = { ...alarms, gimmick: { ...alarms.gimmick, keySW: { ...alarms.gimmick.keySW, enable : !alarms.gimmick.keySW.enable} } };
+      componentDisplay('keySWComponent',!alarms.gimmick.keySW.enable);
     }
     else if(gimmick === 'lightsOut'){
-      updatedAlarmsStatus[day] = { ...alarms[day], gimmick: { ...alarms[day].gimmick, lightsOut: { ...alarms[day].gimmick.lightsOut, enable : !alarms[day].gimmick.lightsOut.enable} } };
-      componentDisplay('lightsOutComponent',!alarms[day].gimmick.lightsOut.enable);
+      updatedAlarmsStatus = { ...alarms, gimmick: { ...alarms.gimmick, lightsOut: { ...alarms.gimmick.lightsOut, enable : !alarms.gimmick.lightsOut.enable} } };
+      componentDisplay('lightsOutComponent',!alarms.gimmick.lightsOut.enable);
     }
     else if(gimmick === 'level'){
-      updatedAlarmsStatus[day] = { ...alarms[day], gimmick: { ...alarms[day].gimmick, level: { ...alarms[day].gimmick.level, enable : !alarms[day].gimmick.level.enable} } };
-      componentDisplay('levelButtonComponent',!alarms[day].gimmick.level.enable);
+      updatedAlarmsStatus = { ...alarms, gimmick: { ...alarms.gimmick, level: { ...alarms.gimmick.level, enable : !alarms.gimmick.level.enable} } };
+      componentDisplay('levelButtonComponent',!alarms.gimmick.level.enable);
     }
     setAlarms(updatedAlarmsStatus);
   }
@@ -95,6 +104,17 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
+          <span className='configComponentBoxTitle'>キースイッチ</span>
+            <Form.Check // prettier-ignore
+              id='keySWCheck'
+              onClick={() => Check('keySW')}
+              type="switch"
+            />
+        </div>
+        <Key></Key>
+      </div>
+      <div className='configComponentBox'>
+        <div className='configComponentBoxHeader'>
           <span className='configComponentBoxTitle'>ライツアウト</span>
             <Form.Check // prettier-ignore
               id='lightsOutCheck'
@@ -102,7 +122,7 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
               type="switch"
             />
         </div>
-        <LightsOut day={day}></LightsOut>
+        <LightsOut></LightsOut>
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
@@ -113,7 +133,7 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
               type="switch"
             />
         </div>
-        <Level day={day}></Level>
+        <Level></Level>
       </div>
     </div>
   )

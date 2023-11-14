@@ -194,3 +194,34 @@ export const alarmsState = atom({
     }
   },
 });
+
+export const dayAlarmState = atom({
+  key: 'dayAlarmState',
+  default: {
+    "enable": true,
+    "alarm": "1100",
+    "gimmick": {
+      "wires": {
+        "enable": true,
+        "answer": [true, true, true, true]
+      },
+      "toggleSW": {
+        "enable": true,
+        "answer": [true, true, true, true, true]
+      },
+      "keySW": {
+        "enable": true,
+                "pattern":[true,false],
+        "default": [true, true, true]
+      },
+      "lightsOut": {
+        "enable": true,
+        "default": [false, true, false, true, false, true, false, true, false]
+      },
+      "level": {
+        "enable": true,
+        "answer": 10
+      }
+    }
+  }
+});
