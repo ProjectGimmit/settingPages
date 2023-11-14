@@ -76,7 +76,7 @@ const Level = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | '
   }
 
   return (
-    <div id='levelButtonComponent'>
+    <div id='levelButtonComponent' className='gimmickComponent'>
       <h2>解除状態</h2>
       <div className='levelButtonBox mx-auto'>
         {[...Array(10)].map((_, i) => (

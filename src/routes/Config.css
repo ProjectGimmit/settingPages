@@ -1,5 +1,6 @@
 .configComponentBox {
     background-color: white;
+    text-align: center;
 }
 
 .configComponentBoxHeader{
@@ -13,7 +14,7 @@ body{
     display: block;
 }
 
-#levelCheck{
+#levelCheck, #lightsOutCheck{
     width: 5em;
     height: 2.5em;
 }
@@ -29,4 +30,8 @@ body{
 #wrapper {
     height: 100vh;
     background-color: #D9D9D9;
+}
+
+.gimmickComponent{
+    padding: 15px;
 }
