@@ -4,29 +4,26 @@ import Config from './routes/Config';
 import Manual from './routes/Manual';
 import NoMatch from './routes/NoMatch';
 
-import Wire from './componets/wire';
-import Toggle from './componets/toggle';
-import Key from './componets/key';
-import Level from './componets/level';
-import LightsOut from './componets/lightsOut';
-// import About from './routes/about';
-// import Contact from './routes/contact';
+import { RecoilRoot } from 'recoil';
 
 function App() {
   return (
-    <div className="App">
-      <Routes>
-        <Route path="/" element={<Top />} />
-        <Route path="/config" element={<Config />} />
-        <Route path="/manual" element={<Manual />} />
-        <Route path="*" element={<NoMatch />} />
-        <Route path="/config/wire" element={<Wire />} />
-        <Route path="/config/toggle" element={<Toggle />} />
-        <Route path="/config/key" element={<Key />} />
-        <Route path="/config/level" element={<Level />} />
-        <Route path="/config/lightsOut" element={<LightsOut />} />
-      </Routes>
-    </div>
+    <RecoilRoot>
+      <div className="App">
+        <Routes>
+          <Route path="/" element={<Top />} />
+          <Route path="/mon/config" element={<Config day='mon' />} />
+          <Route path="/tue/config" element={<Config day='tue' />} />
+          <Route path="/wed/config" element={<Config day='wed' />} />
+          <Route path="/thu/config" element={<Config day='thu' />} />
+          <Route path="/fri/config" element={<Config day='fri' />} />
+          <Route path="/sat/config" element={<Config day='sat' />} />
+          <Route path="/sun/config" element={<Config day='sun' />} />
+          <Route path="/manual" element={<Manual />} />
+          <Route path="*" element={<NoMatch />} />
+        </Routes>
+      </div>
+    </RecoilRoot>
   );
 }
 
