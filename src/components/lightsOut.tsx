@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue, atom } from 'recoil'
-import { alarmsState } from '../states/alarmState'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { dayAlarmState } from '../states/alarmState'
 
 // ライツアウト配列
-const LightsOut = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun' }) => {
-  const alarms = useRecoilValue(alarmsState);
-  const [alarmsStatus, setAlarmsStatus] = useRecoilState(alarmsState);
-  const updatedAlarmsStatus: typeof alarmsStatus = { ...alarmsStatus };
+const LightsOut = () => {
+  const alarms = useRecoilValue(dayAlarmState);
+  const [alarmsStatus, setAlarmsStatus] = useRecoilState(dayAlarmState);
+  let updatedAlarmsStatus: typeof alarmsStatus = { ...alarmsStatus };
   const [lights, setLights] = useState([
     [false, false, false],
     [false, false, false],
@@ -15,9 +15,9 @@ const LightsOut = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'
 
   useEffect(() => {
     setLights([
-      [alarms[day].gimmick.lightsOut.default[0], alarms[day].gimmick.lightsOut.default[1], alarms[day].gimmick.lightsOut.default[2]],
-      [alarms[day].gimmick.lightsOut.default[3], alarms[day].gimmick.lightsOut.default[4], alarms[day].gimmick.lightsOut.default[5]],
-      [alarms[day].gimmick.lightsOut.default[6], alarms[day].gimmick.lightsOut.default[7], alarms[day].gimmick.lightsOut.default[8]]
+      [alarms.gimmick.lightsOut.default[0], alarms.gimmick.lightsOut.default[1], alarms.gimmick.lightsOut.default[2]],
+      [alarms.gimmick.lightsOut.default[3], alarms.gimmick.lightsOut.default[4], alarms.gimmick.lightsOut.default[5]],
+      [alarms.gimmick.lightsOut.default[6], alarms.gimmick.lightsOut.default[7], alarms.gimmick.lightsOut.default[8]]
     ]);
   }, [alarms]);
 
@@ -28,7 +28,7 @@ const LightsOut = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'
       )
     );
     setLights(newLights);
-    updatedAlarmsStatus[day] = { ...alarmsStatus[day], gimmick: { ...alarmsStatus[day].gimmick, lightsOut: { ...alarmsStatus[day].gimmick.lightsOut, default: newLights[0].concat(newLights[1], newLights[2]) } } };
+    updatedAlarmsStatus = { ...alarmsStatus, gimmick: { ...alarmsStatus.gimmick, lightsOut: { ...alarmsStatus.gimmick.lightsOut, default: newLights[0].concat(newLights[1], newLights[2]) } } };
     setAlarmsStatus(updatedAlarmsStatus);
   };
 
