@@ -90,10 +90,9 @@ const Top: React.FC = () => {
           time: d.state[0].time,
         }));
 
+      // 今日の曜日を取得
       const todaySelectedDay = selectedDays.find((d) => d.day === currentDay);
       const todayIndex = selectedDays.findIndex((d) => d.day === currentDay);
-      if (todaySelectedDay !== undefined) {
-        const nextSelectedDay = selectedDays[(todayIndex + 1) % selectedDays.length];
     
         if (selectedDays.length > 0) {
           const nextDay = selectedDays.reduce((closest, day) => {
@@ -126,13 +125,17 @@ const Top: React.FC = () => {
             countdownDate.setDate(countdownDate.getDate() + 7);
             countdownDate.setHours(parseInt(nextDay.time.split(':')[0]));
             countdownDate.setMinutes(parseInt(nextDay.time.split(':')[1]));
-            if (selectedDays.length > 1 && todaySelectedDay && nextSelectedDay) {
-              /* 当日を除く最も近い曜日までのカウントダウンをセットする */
-              const diffWeek = nextSelectedDay.day - todaySelectedDay.day;
-              if (diffWeek < 0) {
-                countdownDate.setDate(countdownDate.getDate() - 7 + diffWeek + 7);
-              } else {
-                countdownDate.setDate(countdownDate.getDate() - 7 + diffWeek);
+            
+            if (todaySelectedDay !== undefined) {
+              const nextSelectedDay = selectedDays[(todayIndex + 1) % selectedDays.length];
+              if (selectedDays.length > 1) {
+                /* 当日を除く最も近い曜日までのカウントダウンをセットする */
+                const diffWeek = nextSelectedDay.day - todaySelectedDay.day;
+                if (diffWeek < 0) {
+                  countdownDate.setDate(countdownDate.getDate() - 7 + diffWeek + 7);
+                } else {
+                  countdownDate.setDate(countdownDate.getDate() - 7 + diffWeek);
+                }
               }
             }
           }
@@ -146,7 +149,6 @@ const Top: React.FC = () => {
           // 選択された日がない場合は00:00:00を表示する
           setTime("00:00:00");
         }
-      }
 
     };
     
