@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { dayAlarmState } from '../states/alarmState'
 import { useRecoilState } from 'recoil'
 import { sendDayAlarmSettingsToAPI,fetchDayAlarmSettingsFromAPI } from '../api/alarmApi'
+import Toggle from '../components/toggle';
 import Key from '../components/key'
 import Level from '../components/level'
 import LightsOut from '../components/lightsOut'
@@ -20,7 +21,6 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
       try {
         const data = await fetchDayAlarmSettingsFromAPI({day:day});
         setAlarms(data);
-        init();
       } catch (error) {
         // エラーハンドリング
       }
@@ -32,31 +32,27 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
     sendDayAlarmSettingsToAPI({day:day},alarms);
   }
 
+  useEffect(() => {
+    init();
+  }, [alarms]);
+
   function init() {
+    //トグルスイッチの初期化
+    const toggleSWCheck = document.getElementById('toggleSWCheck') as HTMLInputElement;
+    toggleSWCheck.checked = alarms.gimmick.toggleSW.enable;
+    componentDisplay('toggleSWComponent',alarms.gimmick.toggleSW.enable);
     //キースイッチの初期化
-    if (alarms.gimmick.keySW.enable) {
-      const keySWCheck = document.getElementById('keySWCheck') as HTMLInputElement;
-      keySWCheck.checked = true;
-    }
-    else {
-      componentDisplay('keySWComponent',false);
-    }
+    const keySWCheck = document.getElementById('keySWCheck') as HTMLInputElement;
+    keySWCheck.checked = alarms.gimmick.keySW.enable;
+    componentDisplay('keySWComponent',alarms.gimmick.keySW.enable);
     //ライツアウトの初期化
-    if (alarms.gimmick.lightsOut.enable) {
-      const lightsOutCheck = document.getElementById('lightsOutCheck') as HTMLInputElement;
-      lightsOutCheck.checked = true;
-    }
-    else {
-      componentDisplay('lightsOutButtonComponent',false);
-    }
+    const lightsOutCheck = document.getElementById('lightsOutCheck') as HTMLInputElement;
+    lightsOutCheck.checked = alarms.gimmick.lightsOut.enable;
+    componentDisplay('lightsOutComponent',alarms.gimmick.lightsOut.enable);
     //レベルメーターの初期化
-    if (alarms.gimmick.level.enable) {
-      const levelCheck = document.getElementById('levelCheck') as HTMLInputElement;
-      levelCheck.checked = true;
-    }
-    else {
-      componentDisplay('levelButtonComponent',false);
-    }
+    const levelCheck = document.getElementById('levelCheck') as HTMLInputElement;
+    levelCheck.checked = alarms.gimmick.level.enable;
+    componentDisplay('levelButtonComponent',alarms.gimmick.level.enable);
   }
 
   function componentDisplay( id: string , bool : boolean) {
@@ -101,6 +97,17 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
       </header>
       <div>
         時刻設定
+      </div>
+      <div className='configComponentBox'>
+        <div className='configComponentBoxHeader'>
+          <span className='configComponentBoxTitle'>トグルスイッチ</span>
+            <Form.Check // prettier-ignore
+              id='toggleSWCheck'
+              onClick={() => Check('toggleSW')}
+              type="switch"
+            />
+        </div>
+        <Toggle></Toggle>
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
