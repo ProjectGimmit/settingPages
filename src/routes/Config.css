@@ -14,7 +14,7 @@ body{
     display: block;
 }
 
-#levelCheck, #lightsOutCheck, #keySWCheck{
+#levelCheck, #lightsOutCheck, #keySWCheck,#toggleSWCheck{
     width: 5em;
     height: 2.5em;
 }
