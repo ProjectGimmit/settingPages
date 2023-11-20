@@ -1,21 +1,21 @@
 import React , { useEffect, useState } from 'react'
 import './level.css'
-import { useRecoilState, useRecoilValue, atom } from 'recoil'
-import { alarmsState } from '../states/alarmState'
+import { useRecoilState, useRecoilValue} from 'recoil'
+import { dayAlarmState } from '../states/alarmState'
 
-const Level = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun' }) => {
-  const alarms = useRecoilValue(alarmsState);
-  const [alarmsStatus, setAlarmsStatus] = useRecoilState(alarmsState);
-  const [level, setLevel] = useState(alarms[day].gimmick.level.answer);
+const Level = () => {
+  const alarms = useRecoilValue(dayAlarmState);
+  const [alarmsStatus, setAlarmsStatus] = useRecoilState(dayAlarmState);
+  const [level, setLevel] = useState(alarms.gimmick.level.answer);
 
   const totalButtons = 10;
 
   useEffect(() => {
-    setLevel(alarms[day].gimmick.level.answer);
+    setLevel(alarms.gimmick.level.answer);
     for (let i = 1; i <= totalButtons; i++) {
       const button = document.getElementById(i.toString());
       if (button) {
-        if (i <= alarms[day].gimmick.level.answer) {
+        if (i <= alarms.gimmick.level.answer) {
           if (i <= 5) {
             button.classList.add('levelButtonFirst');
           } else if (i <= 8) {
@@ -41,7 +41,7 @@ const Level = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | '
     const onlyFirstButtonLit = Array.from(document.getElementsByClassName('levelButtonFirst')).length === 1
       && !document.getElementsByClassName('levelButtonSecond').length
       && !document.getElementsByClassName('levelButtonThird').length;
-      const updatedAlarmsStatus: typeof alarmsStatus = { ...alarmsStatus };
+      let updatedAlarmsStatus: typeof alarmsStatus = { ...alarmsStatus };
   
     if (clickedId === 1 && onlyFirstButtonLit) {
       for (let i = 1; i <= totalButtons; i++) {
@@ -51,10 +51,10 @@ const Level = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | '
         }
       }
       setLevel(0)
-      updatedAlarmsStatus[day] = { ...alarmsStatus[day], gimmick: { ...alarmsStatus[day].gimmick, level: { ...alarmsStatus[day].gimmick.level, answer: 0 } } };
+      updatedAlarmsStatus = { ...alarmsStatus, gimmick: { ...alarmsStatus.gimmick, level: { ...alarmsStatus.gimmick.level, answer: 0 } } };
     } else {
       setLevel(clickedId)
-      updatedAlarmsStatus[day] = { ...alarmsStatus[day], gimmick: { ...alarmsStatus[day].gimmick, level: { ...alarmsStatus[day].gimmick.level, answer: clickedId } } };
+      updatedAlarmsStatus = { ...alarmsStatus, gimmick: { ...alarmsStatus.gimmick, level: { ...alarmsStatus.gimmick.level, answer: clickedId } } };
       for (let i = 1; i <= totalButtons; i++) {
         const button = document.getElementById(i.toString());
         if (button) {
