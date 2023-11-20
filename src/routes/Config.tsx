@@ -92,11 +92,13 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
 
   return (
     <div id='wrapper'>
-      <header>
+      <header className='config-header p-3'>
+        <Button>Back</Button>
+        <span className=''>Gimmit</span>
         <Button variant="success" onClick={save}>Save</Button>
       </header>
       <div>
-        時刻設定
+        <Form.Control type='time' className='w-50 mx-auto'></Form.Control>
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>

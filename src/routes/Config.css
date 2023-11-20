@@ -35,3 +35,9 @@ body{
 .gimmickComponent{
     padding: 15px;
 }
+
+.config-header{
+    background-color: black;
+    display: flex;
+    justify-content: space-between;
+ }
