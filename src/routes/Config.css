@@ -19,7 +19,7 @@ body{
     display: block;
 }
 
-#levelCheck, #lightsOutCheck, #keySWCheck,#toggleSWCheck{
+#levelCheck, #lightsOutCheck, #keySWCheck,#toggleSWCheck,#wiresCheck{
     width: 5em;
     height: 2.5em;
 }

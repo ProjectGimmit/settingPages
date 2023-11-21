@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button';
 import { dayAlarmState } from '../states/alarmState'
 import { useRecoilState } from 'recoil'
 import { sendDayAlarmSettingsToAPI,fetchDayAlarmSettingsFromAPI } from '../api/alarmApi'
+import Wire from '../components/wire';
 import Toggle from '../components/toggle';
 import Key from '../components/key'
 import Level from '../components/level'
@@ -37,6 +38,8 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
   }, [alarms]);
 
   function init() {
+    //ワイヤーの初期化
+    enableComponent('wires',alarms.gimmick.wires.enable);
     //トグルスイッチの初期化
     enableComponent('toggleSW',alarms.gimmick.toggleSW.enable);
     //キースイッチの初期化
@@ -65,6 +68,13 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
 
   function random(){
     return Math.random() < 0.5;
+  }
+
+  function randomWires(){
+    const randomEnable = random();
+    enableComponent("wires",randomEnable);
+    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, wires: { ...updatedAlarmsStatus.gimmick.wires, enable : randomEnable,answer:[random(),random(),random(),random()]} } };
+    setAlarms(updatedAlarmsStatus);
   }
 
   function randomToggleSW(){
@@ -97,6 +107,8 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
 
   //alarmsのgimmickの中身をランダムにする
   function Random(){
+    //ワイヤースイッチのランダム化
+    randomWires();
     //トグルスイッチのランダム化
     randomToggleSW();
     //キースイッチのランダム化
@@ -145,6 +157,17 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
       </div>
       <div>
         <Button onClick={Random}>random</Button>
+      </div>
+      <div className='configComponentBox'>
+        <div className='configComponentBoxHeader'>
+          <span className='configComponentBoxTitle'>ワイヤースイッチ</span>
+            <Form.Check // prettier-ignore
+              id='wiresCheck'
+              onClick={() => Check('wires')}
+              type="switch"
+            />
+        </div>
+        <Wire></Wire>
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
