@@ -17,14 +17,14 @@ const Level = () => {
       if (button) {
         if (i <= alarms.gimmick.level.answer) {
           if (i <= 5) {
-            button.classList.add('levelButtonFirst');
+            button.classList.add('levelFirst');
           } else if (i <= 8) {
-            button.classList.add('levelButtonSecond');
+            button.classList.add('levelSecond');
           } else {
-            button.classList.add('levelButtonThird');
+            button.classList.add('levelThird');
           }
         } else {
-          button.className = 'levelButton';
+          button.className = 'level';
         }
       }
     }
@@ -38,16 +38,16 @@ const Level = () => {
       return;
     }
 
-    const onlyFirstButtonLit = Array.from(document.getElementsByClassName('levelButtonFirst')).length === 1
-      && !document.getElementsByClassName('levelButtonSecond').length
-      && !document.getElementsByClassName('levelButtonThird').length;
+    const onlyFirstButtonLit = Array.from(document.getElementsByClassName('levelFirst')).length === 1
+      && !document.getElementsByClassName('levelSecond').length
+      && !document.getElementsByClassName('levelThird').length;
       let updatedAlarmsStatus: typeof alarmsStatus = { ...alarmsStatus };
   
     if (clickedId === 1 && onlyFirstButtonLit) {
       for (let i = 1; i <= totalButtons; i++) {
         const button = document.getElementById(i.toString());
         if (button) {
-          button.className = 'levelButton';
+          button.className = 'level';
         }
       }
       setLevel(0)
@@ -60,14 +60,14 @@ const Level = () => {
         if (button) {
           if (i <= clickedId) {
             if (i <= 5) {
-              button.classList.add('levelButtonFirst');
+              button.classList.add('levelFirst');
             } else if (i <= 8) {
-              button.classList.add('levelButtonSecond');
+              button.classList.add('levelSecond');
             } else {
-              button.classList.add('levelButtonThird');
+              button.classList.add('levelThird');
             }
           } else {
-            button.className = 'levelButton';
+            button.className = 'level';
           }
         }
       }
@@ -76,14 +76,14 @@ const Level = () => {
   }
 
   return (
-    <div id='levelButtonComponent' className='gimmickComponent'>
+    <div id='levelComponent' className='gimmickComponent'>
       <h2>解除状態</h2>
-      <div className='levelButtonBox mx-auto'>
+      <div className='levelBox mx-auto'>
         {[...Array(10)].map((_, i) => (
           <div
             key={i + 1}
             id={(i+1).toString()}
-            className="levelButton"
+            className="level"
             onClick={handleClick}
           ></div>
         ))}

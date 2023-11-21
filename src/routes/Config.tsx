@@ -38,21 +38,19 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
 
   function init() {
     //トグルスイッチの初期化
-    const toggleSWCheck = document.getElementById('toggleSWCheck') as HTMLInputElement;
-    toggleSWCheck.checked = alarms.gimmick.toggleSW.enable;
-    componentDisplay('toggleSWComponent',alarms.gimmick.toggleSW.enable);
+    enableComponent('toggleSW',alarms.gimmick.toggleSW.enable);
     //キースイッチの初期化
-    const keySWCheck = document.getElementById('keySWCheck') as HTMLInputElement;
-    keySWCheck.checked = alarms.gimmick.keySW.enable;
-    componentDisplay('keySWComponent',alarms.gimmick.keySW.enable);
+    enableComponent('keySW',alarms.gimmick.keySW.enable);
     //ライツアウトの初期化
-    const lightsOutCheck = document.getElementById('lightsOutCheck') as HTMLInputElement;
-    lightsOutCheck.checked = alarms.gimmick.lightsOut.enable;
-    componentDisplay('lightsOutComponent',alarms.gimmick.lightsOut.enable);
+    enableComponent('lightsOut',alarms.gimmick.lightsOut.enable);
     //レベルメーターの初期化
-    const levelCheck = document.getElementById('levelCheck') as HTMLInputElement;
-    levelCheck.checked = alarms.gimmick.level.enable;
-    componentDisplay('levelButtonComponent',alarms.gimmick.level.enable);
+    enableComponent('level',alarms.gimmick.level.enable);
+  }
+
+  function enableComponent(id: string , bool : boolean) {
+    const componentCheck = document.getElementById(id+"Check") as HTMLInputElement;
+    componentCheck.checked = bool;
+    componentDisplay(id+"Component",bool);
   }
 
   function componentDisplay( id: string , bool : boolean) {
@@ -65,6 +63,49 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
     }
   }
 
+  function random(){
+    return Math.random() < 0.5;
+  }
+
+  function randomToggleSW(){
+    const randomEnable = random();
+    enableComponent("toggleSW",randomEnable);
+    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, toggleSW: { ...updatedAlarmsStatus.gimmick.toggleSW, enable : randomEnable,answer:[random(),random(),random(),random(),random()]} } };
+    setAlarms(updatedAlarmsStatus);
+  }
+
+  function randomKeySW(){
+    const randomEnable = random();
+    enableComponent("keySW",randomEnable);
+    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, keySW: { ...updatedAlarmsStatus.gimmick.keySW, enable : randomEnable, default:[random(),random(),random()], pattern:[random(),random()]} } };
+    setAlarms(updatedAlarmsStatus);
+  }
+
+  function randomLightsOut(){
+    const randomEnable = random();
+    enableComponent("lightsOut",randomEnable);
+    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, lightsOut: { ...updatedAlarmsStatus.gimmick.lightsOut, enable : randomEnable, default:[random(),random(),random(),random(),random(),random(),random(),random(),random()]} } };
+    setAlarms(updatedAlarmsStatus);
+  }
+
+  function randomLevel(){
+    const randomEnable = random();
+    enableComponent("level",randomEnable);
+    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, level: { ...updatedAlarmsStatus.gimmick.level, enable : randomEnable, answer:Math.floor(Math.random() * 10)} } };
+    setAlarms(updatedAlarmsStatus);
+  }
+
+  //alarmsのgimmickの中身をランダムにする
+  function Random(){
+    //トグルスイッチのランダム化
+    randomToggleSW();
+    //キースイッチのランダム化
+    randomKeySW();
+    //ライツアウトのランダム化
+    randomLightsOut();
+    //レベルメーターのランダム化
+    randomLevel();
+  }
 
   function Check(gimmick : string) {
     if(gimmick === 'wires'){
@@ -85,7 +126,7 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
     }
     else if(gimmick === 'level'){
       updatedAlarmsStatus = { ...alarms, gimmick: { ...alarms.gimmick, level: { ...alarms.gimmick.level, enable : !alarms.gimmick.level.enable} } };
-      componentDisplay('levelButtonComponent',!alarms.gimmick.level.enable);
+      componentDisplay('levelComponent',!alarms.gimmick.level.enable);
     }
     setAlarms(updatedAlarmsStatus);
   }
@@ -93,12 +134,17 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
   return (
     <div id='wrapper'>
       <header className='config-header p-3'>
-        <Button>Back</Button>
-        <span className=''>Gimmit</span>
+        <Link to={'/'}>
+          <Button>back</Button>
+        </Link>
+        <span className='text-white fs-3'>Gimmit</span>
         <Button variant="success" onClick={save}>Save</Button>
       </header>
-      <div>
+      <div className='timerSettingBox'>
         <Form.Control type='time' className='w-50 mx-auto'></Form.Control>
+      </div>
+      <div>
+        <Button onClick={Random}>random</Button>
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
@@ -134,7 +180,7 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
         <LightsOut></LightsOut>
       </div>
       <div className='configComponentBox'>
-        <div className='configComponentBoxHeader'>
+        <div className='configComponentBoxHeader configComponentBoxHeaderLast'>
           <span className='configComponentBoxTitle'>レベルメーター</span>
             <Form.Check // prettier-ignore
               id='levelCheck'
