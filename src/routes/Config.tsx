@@ -38,6 +38,8 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
   }, [alarms]);
 
   function init() {
+    //タイマーの初期化
+
     //ワイヤーの初期化
     enableComponent('wires',alarms.gimmick.wires.enable);
     //トグルスイッチの初期化
@@ -64,6 +66,13 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
     else{
       component.style.display = 'none';
     }
+  }
+
+  function handleTimeChange(e: React.ChangeEvent<HTMLInputElement>) {
+    console.log(e.target.value);
+    //e.target.value(HH:mm)を(HHmm)に変換
+    const time = e.target.value.replace(':','');
+    //alarmsの時間を変更
   }
 
   function random(){
@@ -153,7 +162,7 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
         <Button variant="success" onClick={save}>Save</Button>
       </header>
       <div className='timerSettingBox'>
-        <Form.Control type='time' className='w-50 mx-auto'></Form.Control>
+        <Form.Control type='time' value="12:00" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTimeChange(e)} className='w-50 mx-auto'></Form.Control>
       </div>
       <div>
         <Button onClick={Random}>random</Button>
