@@ -10,6 +10,8 @@ import Key from '../components/key'
 import Level from '../components/level'
 import LightsOut from '../components/lightsOut'
 import Form from 'react-bootstrap/Form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDice,faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import './Config.css'
 
 const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun' }) => {
@@ -29,6 +31,7 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
     fetchData();
   }, []);
 
+  // 保存ボタン
   const save = () => {
     sendDayAlarmSettingsToAPI({day:day},alarms);
   }
@@ -39,7 +42,8 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
 
   function init() {
     //タイマーの初期化
-
+    const timer = document.getElementById('config-timer') as HTMLInputElement;
+    timer.value = alarms.alarm.slice(0, 2) + ':' + alarms.alarm.slice(2, 4);
     //ワイヤーの初期化
     enableComponent('wires',alarms.gimmick.wires.enable);
     //トグルスイッチの初期化
@@ -68,11 +72,13 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
     }
   }
 
+  // 時間の変更
   function handleTimeChange(e: React.ChangeEvent<HTMLInputElement>) {
-    console.log(e.target.value);
     //e.target.value(HH:mm)を(HHmm)に変換
-    const time = e.target.value.replace(':','');
-    //alarmsの時間を変更
+    const time = e.target.value.split(':').join('');
+    console.log(time);
+    updatedAlarmsStatus = { ...alarms, alarm: time };
+    setAlarms(updatedAlarmsStatus);
   }
 
   function random(){
@@ -80,37 +86,34 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
   }
 
   function randomWires(){
-    const randomEnable = random();
-    enableComponent("wires",randomEnable);
-    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, wires: { ...updatedAlarmsStatus.gimmick.wires, enable : randomEnable,answer:[random(),random(),random(),random()]} } };
+    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, wires: { ...updatedAlarmsStatus.gimmick.wires,answer:[random(),random(),random(),random()]} } };
     setAlarms(updatedAlarmsStatus);
   }
 
   function randomToggleSW(){
-    const randomEnable = random();
-    enableComponent("toggleSW",randomEnable);
-    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, toggleSW: { ...updatedAlarmsStatus.gimmick.toggleSW, enable : randomEnable,answer:[random(),random(),random(),random(),random()]} } };
+    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, toggleSW: { ...updatedAlarmsStatus.gimmick.toggleSW,answer:[random(),random(),random(),random(),random()]} } };
     setAlarms(updatedAlarmsStatus);
   }
 
   function randomKeySW(){
-    const randomEnable = random();
-    enableComponent("keySW",randomEnable);
-    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, keySW: { ...updatedAlarmsStatus.gimmick.keySW, enable : randomEnable, default:[random(),random(),random()], pattern:[random(),random()]} } };
+    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, keySW: { ...updatedAlarmsStatus.gimmick.keySW, default:[random(),random(),random()], pattern:[random(),random()]} } };
     setAlarms(updatedAlarmsStatus);
+    if(updatedAlarmsStatus.gimmick.keySW.default[0] && updatedAlarmsStatus.gimmick.keySW.default[1] && updatedAlarmsStatus.gimmick.keySW.default[2]){
+      randomKeySW();
+    }
   }
 
   function randomLightsOut(){
-    const randomEnable = random();
-    enableComponent("lightsOut",randomEnable);
-    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, lightsOut: { ...updatedAlarmsStatus.gimmick.lightsOut, enable : randomEnable, default:[random(),random(),random(),random(),random(),random(),random(),random(),random()]} } };
+    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, lightsOut: { ...updatedAlarmsStatus.gimmick.lightsOut, default:[random(),random(),random(),random(),random(),random(),random(),random(),random()]} } };
     setAlarms(updatedAlarmsStatus);
+    //初期状態で全て消灯している場合は再度ランダム化
+    if(updatedAlarmsStatus.gimmick.lightsOut.default[0] && updatedAlarmsStatus.gimmick.lightsOut.default[1] && updatedAlarmsStatus.gimmick.lightsOut.default[2] && updatedAlarmsStatus.gimmick.lightsOut.default[3] && updatedAlarmsStatus.gimmick.lightsOut.default[4] && updatedAlarmsStatus.gimmick.lightsOut.default[5] && updatedAlarmsStatus.gimmick.lightsOut.default[6] && updatedAlarmsStatus.gimmick.lightsOut.default[7] && updatedAlarmsStatus.gimmick.lightsOut.default[8]){
+      randomLightsOut();
+    }
   }
 
   function randomLevel(){
-    const randomEnable = random();
-    enableComponent("level",randomEnable);
-    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, level: { ...updatedAlarmsStatus.gimmick.level, enable : randomEnable, answer:Math.floor(Math.random() * 10)} } };
+    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, level: { ...updatedAlarmsStatus.gimmick.level, answer:Math.floor(Math.random() * 11)} } };
     setAlarms(updatedAlarmsStatus);
   }
 
@@ -154,18 +157,20 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
 
   return (
     <div id='wrapper'>
-      <header className='config-header p-3'>
-        <Link to={'/'}>
-          <Button>back</Button>
-        </Link>
-        <span className='text-white fs-3'>Gimmit</span>
-        <Button variant="success" onClick={save}>Save</Button>
+      <header className='config-header p-3 sticky-top'>
+        <div className='config-back'>
+          <Link to={'/'}>
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </Link>
+        </div>
+        <span className='text-white fs-3 p-1'>Gimmit</span>
+        <div className='btn btn-outline-success p-2' onClick={save}>保存</div>
       </header>
-      <div className='timerSettingBox'>
-        <Form.Control type='time' value="12:00" onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTimeChange(e)} className='w-50 mx-auto'></Form.Control>
+      <div className='timerSettingBox mb-3'>
+        <Form.Control type='time' id='config-timer' onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTimeChange(e)} className='w-50 mx-auto'></Form.Control>
       </div>
       <div>
-        <Button onClick={Random}>random</Button>
+        <Button onClick={Random} className='d-block mb-3 mx-auto btn-secondary'><FontAwesomeIcon icon={faDice}  /> 全ギミックをランダム設定</Button>
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
@@ -176,7 +181,10 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
               type="switch"
             />
         </div>
-        <Wire></Wire>
+        <div id='wiresComponent' className='gimmickComponent'>
+          <Wire></Wire>
+          <Button className='mt-3 btn-secondary' onClick={randomWires}>ランダム設定</Button>
+        </div>
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
@@ -187,7 +195,10 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
               type="switch"
             />
         </div>
-        <Toggle></Toggle>
+        <div className='toggle p-3' id='toggleSWComponent'>
+          <Toggle></Toggle>
+          <Button className='mt-3 btn-secondary' onClick={randomToggleSW}>ランダム設定</Button>
+        </div>
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
@@ -198,7 +209,10 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
               type="switch"
             />
         </div>
-        <Key></Key>
+        <div id='keySWComponent' className='gimmickComponent'>
+          <Key></Key>
+          <Button className='mt-3 btn-secondary' onClick={randomKeySW}>ランダム設定</Button>
+        </div>
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
@@ -209,7 +223,10 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
               type="switch"
             />
         </div>
-        <LightsOut></LightsOut>
+        <div id='lightsOutComponent' className='gimmickComponent'>
+          <LightsOut></LightsOut>
+          <Button className='mt-3 btn-secondary' onClick={randomLightsOut}>ランダム設定</Button>
+        </div>
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader configComponentBoxHeaderLast'>
@@ -220,7 +237,12 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
               type="switch"
             />
         </div>
-        <Level></Level>
+        <div>
+          <div id='levelComponent' className='gimmickComponent'>
+            <Level></Level>
+            <Button className='mt-3 btn-secondary' onClick={randomLevel}>ランダム設定</Button>
+          </div>
+        </div>
       </div>
     </div>
   )

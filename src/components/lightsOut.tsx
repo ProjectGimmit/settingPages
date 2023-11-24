@@ -33,7 +33,7 @@ const LightsOut = () => {
   };
 
   return (
-    <div id='lightsOutComponent' className='gimmickComponent'>
+    <div>
       <h2>初期状態</h2>
       {lights.map((row, rowIndex) => (
         <div key={rowIndex}>

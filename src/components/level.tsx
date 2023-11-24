@@ -76,7 +76,7 @@ const Level = () => {
   }
 
   return (
-    <div id='levelComponent' className='gimmickComponent'>
+    <div>
       <h2>解除状態</h2>
       <div className='levelBox mx-auto'>
         {[...Array(10)].map((_, i) => (

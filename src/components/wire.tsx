@@ -45,7 +45,7 @@ const Wire = () => {
     };
 
     return (
-        <div id='wiresComponent' className='gimmickComponent'>
+        <div>
         <h3>解除状態</h3>
         <div style={{ display: 'flex' }} id='wiresBox'>
             {banIcons.map((isBanVisible, index) => (
