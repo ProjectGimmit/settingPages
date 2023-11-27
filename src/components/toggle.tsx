@@ -32,7 +32,7 @@ const Toggle: React.FC = () => {
   }
 
   return (
-    <div className='toggle p-3' id='toggleSWComponent'>
+    <div>
       <h2>正解の数値</h2><br />
       <h2>{calculateSum().toString()}</h2>
       <div>

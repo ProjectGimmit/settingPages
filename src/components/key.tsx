@@ -20,10 +20,10 @@ const Key = () => {
         //patternの初期化
         let selectedPatternNum = 1;
         if(alarmsStatus.gimmick.keySW.pattern[0]){
-            selectedPatternNum += 1;
+            selectedPatternNum += 2;
         }
         if(alarmsStatus.gimmick.keySW.pattern[1]){
-            selectedPatternNum += 2;
+            selectedPatternNum += 1;
         }
         //valueが1~4になり、対応するoptionが選択される
         const selectPattern = document.getElementById('selectPattern') as HTMLSelectElement;
@@ -73,7 +73,7 @@ const Key = () => {
     const icon3 = isSolidIcon3 ? faCircle : faCircle;
 
     return (
-        <div id='keySWComponent' className='gimmickComponent'>
+        <div>
             <div>
                 <h2>初期状態</h2>
                 <FontAwesomeIcon icon={icon1} size="5x" style={iconStyle1} onClick={handleIconClick1} />
