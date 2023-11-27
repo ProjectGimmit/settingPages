@@ -4,11 +4,14 @@ import Button from 'react-bootstrap/Button';
 import { dayAlarmState } from '../states/alarmState'
 import { useRecoilState } from 'recoil'
 import { sendDayAlarmSettingsToAPI,fetchDayAlarmSettingsFromAPI } from '../api/alarmApi'
+import Wire from '../components/wire';
 import Toggle from '../components/toggle';
 import Key from '../components/key'
 import Level from '../components/level'
 import LightsOut from '../components/lightsOut'
 import Form from 'react-bootstrap/Form';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faDice,faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import './Config.css'
 
 const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun' }) => {
@@ -28,6 +31,7 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
     fetchData();
   }, []);
 
+  // 保存ボタン
   const save = () => {
     sendDayAlarmSettingsToAPI({day:day},alarms);
   }
@@ -37,22 +41,25 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
   }, [alarms]);
 
   function init() {
+    //タイマーの初期化
+    const timer = document.getElementById('config-timer') as HTMLInputElement;
+    timer.value = alarms.alarm.slice(0, 2) + ':' + alarms.alarm.slice(2, 4);
+    //ワイヤーの初期化
+    enableComponent('wires',alarms.gimmick.wires.enable);
     //トグルスイッチの初期化
-    const toggleSWCheck = document.getElementById('toggleSWCheck') as HTMLInputElement;
-    toggleSWCheck.checked = alarms.gimmick.toggleSW.enable;
-    componentDisplay('toggleSWComponent',alarms.gimmick.toggleSW.enable);
+    enableComponent('toggleSW',alarms.gimmick.toggleSW.enable);
     //キースイッチの初期化
-    const keySWCheck = document.getElementById('keySWCheck') as HTMLInputElement;
-    keySWCheck.checked = alarms.gimmick.keySW.enable;
-    componentDisplay('keySWComponent',alarms.gimmick.keySW.enable);
+    enableComponent('keySW',alarms.gimmick.keySW.enable);
     //ライツアウトの初期化
-    const lightsOutCheck = document.getElementById('lightsOutCheck') as HTMLInputElement;
-    lightsOutCheck.checked = alarms.gimmick.lightsOut.enable;
-    componentDisplay('lightsOutComponent',alarms.gimmick.lightsOut.enable);
+    enableComponent('lightsOut',alarms.gimmick.lightsOut.enable);
     //レベルメーターの初期化
-    const levelCheck = document.getElementById('levelCheck') as HTMLInputElement;
-    levelCheck.checked = alarms.gimmick.level.enable;
-    componentDisplay('levelButtonComponent',alarms.gimmick.level.enable);
+    enableComponent('level',alarms.gimmick.level.enable);
+  }
+
+  function enableComponent(id: string , bool : boolean) {
+    const componentCheck = document.getElementById(id+"Check") as HTMLInputElement;
+    componentCheck.checked = bool;
+    componentDisplay(id+"Component",bool);
   }
 
   function componentDisplay( id: string , bool : boolean) {
@@ -65,6 +72,64 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
     }
   }
 
+  // 時間の変更
+  function handleTimeChange(e: React.ChangeEvent<HTMLInputElement>) {
+    //e.target.value(HH:mm)を(HHmm)に変換
+    const time = e.target.value.split(':').join('');
+    console.log(time);
+    updatedAlarmsStatus = { ...alarms, alarm: time };
+    setAlarms(updatedAlarmsStatus);
+  }
+
+  function random(){
+    return Math.random() < 0.5;
+  }
+
+  function randomWires(){
+    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, wires: { ...updatedAlarmsStatus.gimmick.wires,answer:[random(),random(),random(),random()]} } };
+    setAlarms(updatedAlarmsStatus);
+  }
+
+  function randomToggleSW(){
+    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, toggleSW: { ...updatedAlarmsStatus.gimmick.toggleSW,answer:[random(),random(),random(),random(),random()]} } };
+    setAlarms(updatedAlarmsStatus);
+  }
+
+  function randomKeySW(){
+    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, keySW: { ...updatedAlarmsStatus.gimmick.keySW, default:[random(),random(),random()], pattern:[random(),random()]} } };
+    setAlarms(updatedAlarmsStatus);
+    if(updatedAlarmsStatus.gimmick.keySW.default[0] && updatedAlarmsStatus.gimmick.keySW.default[1] && updatedAlarmsStatus.gimmick.keySW.default[2]){
+      randomKeySW();
+    }
+  }
+
+  function randomLightsOut(){
+    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, lightsOut: { ...updatedAlarmsStatus.gimmick.lightsOut, default:[random(),random(),random(),random(),random(),random(),random(),random(),random()]} } };
+    setAlarms(updatedAlarmsStatus);
+    //初期状態で全て消灯している場合は再度ランダム化
+    if(updatedAlarmsStatus.gimmick.lightsOut.default[0] && updatedAlarmsStatus.gimmick.lightsOut.default[1] && updatedAlarmsStatus.gimmick.lightsOut.default[2] && updatedAlarmsStatus.gimmick.lightsOut.default[3] && updatedAlarmsStatus.gimmick.lightsOut.default[4] && updatedAlarmsStatus.gimmick.lightsOut.default[5] && updatedAlarmsStatus.gimmick.lightsOut.default[6] && updatedAlarmsStatus.gimmick.lightsOut.default[7] && updatedAlarmsStatus.gimmick.lightsOut.default[8]){
+      randomLightsOut();
+    }
+  }
+
+  function randomLevel(){
+    updatedAlarmsStatus = { ...updatedAlarmsStatus, gimmick: { ...updatedAlarmsStatus.gimmick, level: { ...updatedAlarmsStatus.gimmick.level, answer:Math.floor(Math.random() * 11)} } };
+    setAlarms(updatedAlarmsStatus);
+  }
+
+  //alarmsのgimmickの中身をランダムにする
+  function Random(){
+    //ワイヤースイッチのランダム化
+    randomWires();
+    //トグルスイッチのランダム化
+    randomToggleSW();
+    //キースイッチのランダム化
+    randomKeySW();
+    //ライツアウトのランダム化
+    randomLightsOut();
+    //レベルメーターのランダム化
+    randomLevel();
+  }
 
   function Check(gimmick : string) {
     if(gimmick === 'wires'){
@@ -85,18 +150,41 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
     }
     else if(gimmick === 'level'){
       updatedAlarmsStatus = { ...alarms, gimmick: { ...alarms.gimmick, level: { ...alarms.gimmick.level, enable : !alarms.gimmick.level.enable} } };
-      componentDisplay('levelButtonComponent',!alarms.gimmick.level.enable);
+      componentDisplay('levelComponent',!alarms.gimmick.level.enable);
     }
     setAlarms(updatedAlarmsStatus);
   }
 
   return (
     <div id='wrapper'>
-      <header>
-        <Button variant="success" onClick={save}>Save</Button>
+      <header className='config-header p-3 sticky-top'>
+        <div className='config-back'>
+          <Link to={'/'}>
+            <FontAwesomeIcon icon={faChevronLeft} />
+          </Link>
+        </div>
+        <span className='text-white fs-3 p-1'>Gimmit</span>
+        <div className='btn btn-outline-success p-2' onClick={save}>保存</div>
       </header>
+      <div className='timerSettingBox mb-3'>
+        <Form.Control type='time' id='config-timer' onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTimeChange(e)} className='w-50 mx-auto'></Form.Control>
+      </div>
       <div>
-        時刻設定
+        <Button onClick={Random} className='d-block mb-3 mx-auto btn-secondary'><FontAwesomeIcon icon={faDice}  /> 全ギミックをランダム設定</Button>
+      </div>
+      <div className='configComponentBox'>
+        <div className='configComponentBoxHeader'>
+          <span className='configComponentBoxTitle'>ワイヤースイッチ</span>
+            <Form.Check // prettier-ignore
+              id='wiresCheck'
+              onClick={() => Check('wires')}
+              type="switch"
+            />
+        </div>
+        <div id='wiresComponent' className='gimmickComponent'>
+          <Wire></Wire>
+          <Button className='mt-3 btn-secondary' onClick={randomWires}>ランダム設定</Button>
+        </div>
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
@@ -107,7 +195,10 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
               type="switch"
             />
         </div>
-        <Toggle></Toggle>
+        <div className='toggle p-3' id='toggleSWComponent'>
+          <Toggle></Toggle>
+          <Button className='mt-3 btn-secondary' onClick={randomToggleSW}>ランダム設定</Button>
+        </div>
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
@@ -118,7 +209,10 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
               type="switch"
             />
         </div>
-        <Key></Key>
+        <div id='keySWComponent' className='gimmickComponent'>
+          <Key></Key>
+          <Button className='mt-3 btn-secondary' onClick={randomKeySW}>ランダム設定</Button>
+        </div>
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
@@ -129,10 +223,13 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
               type="switch"
             />
         </div>
-        <LightsOut></LightsOut>
+        <div id='lightsOutComponent' className='gimmickComponent'>
+          <LightsOut></LightsOut>
+          <Button className='mt-3 btn-secondary' onClick={randomLightsOut}>ランダム設定</Button>
+        </div>
       </div>
       <div className='configComponentBox'>
-        <div className='configComponentBoxHeader'>
+        <div className='configComponentBoxHeader configComponentBoxHeaderLast'>
           <span className='configComponentBoxTitle'>レベルメーター</span>
             <Form.Check // prettier-ignore
               id='levelCheck'
@@ -140,7 +237,12 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
               type="switch"
             />
         </div>
-        <Level></Level>
+        <div>
+          <div id='levelComponent' className='gimmickComponent'>
+            <Level></Level>
+            <Button className='mt-3 btn-secondary' onClick={randomLevel}>ランダム設定</Button>
+          </div>
+        </div>
       </div>
     </div>
   )
