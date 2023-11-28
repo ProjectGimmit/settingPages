@@ -1,0 +1,23 @@
+.manual-header{
+    background-color: black;
+    display: flex;
+}
+
+.manual-back a{
+    color: white;
+    font-size: 1.5em;
+    margin: 0 10px;
+ }
+
+.manual-accordion-box .accordion{
+    --bs-accordion-active-bg:#dddddd !important;
+}
+
+.manual-accordion-box .accordion-button{
+    background-color: #dddddd;
+}
+
+.manual-body{
+    min-height: 100vh;
+    /* background-color: black; */
+}
