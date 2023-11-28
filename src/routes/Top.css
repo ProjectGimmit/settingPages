@@ -1,14 +1,12 @@
-.container {
+.top-container {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     height: 100vh;
     background-color: black;
 }
 .app-name {
     color: white;
-    margin-bottom: 20px;
 }
 .time-limit {
     color: white;
@@ -17,18 +15,40 @@
 }
 .time {
     color: red;
-    font-size: 20px;
-    margin-bottom: 20px;
+    font-size: 30px;
 }
-.mon {
+.timer {
+    background-color: black;
+    color: white;
+    border-color: white;
+}
+.timer-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+.time-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
+    padding: 10px;
+    border-bottom: 1px solid white;
 }
+.time-container:first-child {
+    border-top: 1px solid white;
+}
+/* 土日の色を変えたいならここを変える */
+/* #label-of-sat {
+    color: blue;
+}
+#label-of-sun {
+    color: red;
+} */
 .day-of-week {
     color: white;
     font-size: 20px;
-    margin: auto;
 }
 .days-container {
     display: flex;
@@ -37,6 +57,21 @@
 }
 .day {
     margin: auto;
+}
+#manual-btn {
+    background-color: #373737;
+}
+#manual-icon {
+    margin-right: 5px;
+}
+#manual-txt {
+    padding-top: 2px;
+    padding-left: 5px;
+    color: white;
+}
+#custom-switch-mon, #custom-switch-tue, #custom-switch-wed, #custom-switch-thu, #custom-switch-fri, #custom-switch-sat, #custom-switch-sun {
+    width: 4em;
+    height: 2em;
 }
 /* 
 input[type="time"]::-webkit-calendar-picker-indicator {
