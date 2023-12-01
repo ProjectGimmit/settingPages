@@ -45,7 +45,7 @@ const LightsOut = () => {
                 width: '5rem',
                 height: '5rem',
                 margin: '1rem',
-                background: light ? '#B0FFA0' : '#C0C0C0',
+                background: light ? '#0d6efd' : '#C0C0C0',
               }}
             />
           ))}
