@@ -64,9 +64,9 @@ const Key = () => {
                 break;
         }
     };
-    const iconStyle1 = { color: isSolidIcon1 ? "#ADF1AC" : "#D9D9D9", marginRight: "10px" };
-    const iconStyle2 = { color: isSolidIcon2 ? "#ADF1AC" : "#D9D9D9", marginRight: "10px" };
-    const iconStyle3 = { color: isSolidIcon3 ? "#ADF1AC" : "#D9D9D9" };
+    const iconStyle1 = { color: isSolidIcon1 ? "#0d6efd" : "#D9D9D9", marginRight: "10px" };
+    const iconStyle2 = { color: isSolidIcon2 ? "#0d6efd" : "#D9D9D9", marginRight: "10px" };
+    const iconStyle3 = { color: isSolidIcon3 ? "#0d6efd" : "#D9D9D9" };
 
     const icon1 = isSolidIcon1 ? faCircle : faCircle;
     const icon2 = isSolidIcon2 ? faCircle : faCircle;
