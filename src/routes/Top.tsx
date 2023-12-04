@@ -130,7 +130,7 @@ const Top: React.FC = () => {
               const nextSelectedDay = selectedDays[(todayIndex + 1) % selectedDays.length];
               if (selectedDays.length > 1) {
                 /* 当日を除く最も近い曜日に設定された時刻までのカウントダウンを表示する */
-                countdownDate.setDate(countdownDate.getDate() + (nextSelectedDay.day - currentDay) % 7);
+                countdownDate.setDate(countdownDate.getDate() - 7 + (nextSelectedDay.day - currentDay + 7) % 7);
                 countdownDate.setHours(parseInt(nextSelectedDay.time.split(':')[0]));
                 countdownDate.setMinutes(parseInt(nextSelectedDay.time.split(':')[1]));
               }
