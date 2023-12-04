@@ -9,17 +9,91 @@ import './Manual.css';
 const Manual = () => {
 
   const [gimmickData, setGimmickData] = useState<any>(null);
+  const [weekDay, setWeekDay] = useState<'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun'>('mon');
 
   useEffect(() => {
+    //今日の曜日を取得
+    const dayOfWeek = new Date().getDay();
+    switch (dayOfWeek) {
+      case 1:
+        setWeekDay('mon');
+        break;
+      case 2:
+        setWeekDay('tue');
+        break;
+      case 3:
+        setWeekDay('wed');
+        break;
+      case 4:
+        setWeekDay('thu');
+        break;
+      case 5:
+        setWeekDay('fri');
+        break;
+      case 6:
+        setWeekDay('sat');
+        break;
+      case 0:
+        setWeekDay('sun');
+        break;
+      default:
+        break;
+    }
     // 曜日ごとの設定情報をAPIから取得
-    fetchDayAlarmSettingsFromAPI({ day: 'mon' })
+    fetchDayAlarmSettingsFromAPI({day:weekDay})
       .then(data => setGimmickData(data))
       .catch(error => console.error(error));
   }, []);
 
+  const wireManual = (answer : [boolean,boolean,boolean,boolean]) => {
+    //全てtrueの場合
+    if (answer[0] && answer[1] && answer[2] && answer[3]) {
+      return '全て接続する';
+    }
+    //全てfalseの場合
+    if (!answer[0] && !answer[1] && !answer[2] && !answer[3]) {
+      return '全て接続しない';
+    }
+    let wire1 : string = '';
+    let wire2 : string = '';
+    if (answer[0]) {
+      wire1 += '赤';
+    }
+    else {
+      wire2 += '赤';
+    }
+    if (answer[1]) {
+      wire1.length === 0 ? wire1 += '黄' : wire1 += '、黄';
+    }
+    else {
+      wire2.length === 0 ? wire2 += '黄' : wire2 += '、黄';
+    }
+    if (answer[2]) {
+      wire1.length === 0 ? wire1 += '緑' : wire1 += '、緑';
+    }
+    else {
+      wire2.length === 0 ? wire2 += '緑' : wire2 += '、緑';
+    }
+    if (answer[3]) {
+      wire1.length === 0 ? wire1 += '青' : wire1 += '、青';
+    }
+    else {
+      wire2.length === 0 ? wire2 += '青' : wire2 += '、青';
+    }
+    return `${wire2}を切断し、${wire1}を接続する。`;
+  }
+
   //ワイヤーが有効だった場合のマニュアル表示関数
   const wiresManual = () => {
-    const monday = "dummy";
+    let monday,tuesday,wednesday,thursday,friday,saturday,sunday : string;
+    (weekDay === 'mon') ? monday = wireManual(gimmickData.gimmick.wires.answer) : monday = wireManual([!gimmickData.gimmick.wires.answer[0],gimmickData.gimmick.wires.answer[1],gimmickData.gimmick.wires.answer[2],gimmickData.gimmick.wires.answer[3]]);
+    (weekDay === 'tue') ? tuesday = wireManual(gimmickData.gimmick.wires.answer) : tuesday = wireManual([gimmickData.gimmick.wires.answer[0],!gimmickData.gimmick.wires.answer[1],gimmickData.gimmick.wires.answer[2],gimmickData.gimmick.wires.answer[3]]);
+    (weekDay === 'wed') ? wednesday = wireManual(gimmickData.gimmick.wires.answer) : wednesday = wireManual([gimmickData.gimmick.wires.answer[0],gimmickData.gimmick.wires.answer[1],!gimmickData.gimmick.wires.answer[2],gimmickData.gimmick.wires.answer[3]]);
+    (weekDay === 'thu') ? thursday = wireManual(gimmickData.gimmick.wires.answer) : thursday = wireManual([gimmickData.gimmick.wires.answer[0],gimmickData.gimmick.wires.answer[1],gimmickData.gimmick.wires.answer[2],!gimmickData.gimmick.wires.answer[3]]);
+    (weekDay === 'fri') ? friday = wireManual(gimmickData.gimmick.wires.answer) : friday = wireManual([!gimmickData.gimmick.wires.answer[0],!gimmickData.gimmick.wires.answer[1],gimmickData.gimmick.wires.answer[2],gimmickData.gimmick.wires.answer[3]]);
+    (weekDay === 'sat') ? saturday = wireManual(gimmickData.gimmick.wires.answer) : saturday = wireManual([gimmickData.gimmick.wires.answer[0],!gimmickData.gimmick.wires.answer[1],!gimmickData.gimmick.wires.answer[2],gimmickData.gimmick.wires.answer[3]]);
+    (weekDay === 'sun') ? sunday = wireManual(gimmickData.gimmick.wires.answer) : sunday = wireManual([gimmickData.gimmick.wires.answer[0],gimmickData.gimmick.wires.answer[1],!gimmickData.gimmick.wires.answer[2],!gimmickData.gimmick.wires.answer[3]]);
+
     return (
       <div>
         <ul>
@@ -40,27 +114,27 @@ const Manual = () => {
             </tr>
             <tr>
               <td>火曜日</td>
-              <td>赤、緑を切断し、黄と青を接続する</td>
+              <td>{tuesday}</td>
             </tr>
             <tr>
               <td>水曜日</td>
-              <td>赤、緑を切断し、黄と青を接続する</td>
+              <td>{wednesday}</td>
             </tr>
             <tr>
               <td>木曜日</td>
-              <td>赤、緑を切断し、黄と青を接続する</td>
+              <td>{thursday}</td>
             </tr>
             <tr>
               <td>金曜日</td>
-              <td>赤、緑を切断し、黄と青を接続する</td>
+              <td>{friday}</td>
             </tr>
             <tr>
               <td>土曜日</td>
-              <td>赤、緑を切断し、黄と青を接続する</td>
+              <td>{saturday}</td>
             </tr>
             <tr>
               <td>日曜日</td>
-              <td>赤、緑を切断し、黄と青を接続する</td>
+              <td>{sunday}</td>
             </tr>
           </tbody>
         </table>
@@ -143,30 +217,11 @@ const Manual = () => {
     const answerLevel : number = gimmickData.gimmick.level.answer;
     console.log(gimmickData.gimmick.level.answer);
     const day = new Date().getDate();
-    if(day % 4 === 0 && day % 3 === 0){
-      var levela = answerLevel;
-      var levelb = (answerLevel + 2) % 10;
-      var levelc = (answerLevel + 4) % 10;
-      var leveld = (answerLevel + 6) % 10;
-    }
-    else if(day % 4 === 0 && day % 3 !== 0){
-      var levela = (answerLevel + 2) % 10;
-      var levelb = answerLevel;
-      var levelc = (answerLevel + 4) % 10;
-      var leveld = (answerLevel + 6) % 10;
-    }
-    else if(day % 4 !== 0 && day % 3 === 0){
-      var levela = (answerLevel + 2) % 10;
-      var levelb = (answerLevel + 4) % 10;
-      var levelc = answerLevel;
-      var leveld = (answerLevel + 6) % 10;
-    }
-    else{
-      var levela = (answerLevel + 2) % 10;
-      var levelb = (answerLevel + 4) % 10;
-      var levelc = (answerLevel + 6) % 10;
-      var leveld = answerLevel;
-    }
+    let levela,levelb,levelc,leveld : number;
+    (day % 4 === 0 && day % 3 === 0) ? levela = answerLevel : levela = (answerLevel + 2) % 10;
+    (day % 4 === 0 && day % 3 !== 0) ? levelb = answerLevel : levelb = (answerLevel + 4) % 10;
+    (day % 4 !== 0 && day % 3 === 0) ? levelc = answerLevel : levelc = (answerLevel + 6) % 10;
+    (day % 4 !== 0 && day % 3 !== 0) ? leveld = answerLevel : leveld = (answerLevel + 8) % 10;
 
     return (
       <div>
