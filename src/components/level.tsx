@@ -31,7 +31,7 @@ const Level = () => {
   }
   , [alarms]);
 
-  const handleClick = (event: { target: { id: any; }; }) => {
+  const handleClick = (event: { target: { id: 1|2|3|4|5|6|7|8|9|10; }; }) => {
     const clickedId = Number(event.target.id);
     //clickedIdが1~10の場合のみ処理を行う
     if (clickedId < 1 || clickedId > 10 || isNaN(clickedId)) {
