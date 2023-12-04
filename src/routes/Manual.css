@@ -21,3 +21,19 @@
     min-height: 100vh;
     /* background-color: black; */
 }
+
+.manual-text-box{
+    padding: 20px;
+}
+
+.manual-text-box p,.manual-text-box li{
+    margin-top: 5px;
+}
+
+.manual-pattern-box{
+    padding-top: 10px;
+}
+
+.manual-level-table{
+    font-size: 0.8em;
+}
