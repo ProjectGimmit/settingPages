@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Form } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
-import { fetchAlarmSettingsFromAPI } from '../api/alarmApi';
+import { fetchAlarmSettingsFromAPI, sendDayTImerSettingToAPI } from '../api/alarmApi';
 import './Top.css';
 
 const Top: React.FC = () => {
@@ -63,6 +63,7 @@ const Top: React.FC = () => {
         : d
     );
     setDays(newDays);
+    sendDayTImerSettingToAPI({day:days.filter((d) => d.label === day)[0].state[0].en}, {enable: days.filter((d) => d.label === day)[0].state[0].checked, alarm: event.target.value});
   };
 
   const handleCheckChange = (day: string, event: React.ChangeEvent<HTMLInputElement>) => {
@@ -72,6 +73,7 @@ const Top: React.FC = () => {
         : d
     );
     setDays(newDays);
+    sendDayTImerSettingToAPI({day:days.filter((d) => d.label === day)[0].state[0].en}, {enable: event.target.checked, alarm: days.filter((d) => d.label === day)[0].state[0].time});
   };
 
   useEffect(() => {

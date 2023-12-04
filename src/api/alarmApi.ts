@@ -85,3 +85,15 @@ export async function sendDayAlarmSettingsToAPI({ day }: { day: 'mon' | 'tue' | 
     throw error;
   }
 }
+
+//曜日別アラームを設定をサーバーに送信
+export async function sendDayTImerSettingToAPI({ day }: { day: string },data: Record<string, any>) {
+  try {
+    // 実際のAPIエンドポイントにデータを送信するコードをここに実装
+    console.log('曜日が'+day+'のタイマー設定をサーバーに送信:', data);
+    // 実際のAPIとの通信を行うコードをここに実装
+  } catch (error) {
+    console.error('APIデータ送信エラー:', error);
+    throw error;
+  }
+}
