@@ -4,24 +4,16 @@
     align-items: center;
     min-height: 100vh;
     height: fit-content;
+    color: white;
     background-color: black;
 }
-.app-name {
-    color: white;
-}
 .time-limit {
-    color: white;
     text-align: center;
     margin-bottom: 20px;
 }
 .time {
     color: red;
     font-size: 30px;
-}
-.timer {
-    background-color: black;
-    color: white;
-    border-color: white;
 }
 .timer-box {
     display: flex;
