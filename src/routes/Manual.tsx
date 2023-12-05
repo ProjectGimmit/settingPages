@@ -215,7 +215,6 @@ const Manual = () => {
   const levelManual = () => {
     //今日の日だけを取得
     const answerLevel : number = gimmickData.gimmick.level.answer;
-    console.log(gimmickData.gimmick.level.answer);
     const day = new Date().getDate();
     let levela,levelb,levelc,leveld : number;
     (day % 4 === 0 && day % 3 === 0) ? levela = answerLevel : levela = (answerLevel + 2) % 10;
