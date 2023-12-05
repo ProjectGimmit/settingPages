@@ -31,13 +31,14 @@ const Wire = () => {
     const alarms = useRecoilValue(dayAlarmState);
     const [alarmsStatus, setAlarmsStatus] = useRecoilState(dayAlarmState);
     const [banIcons, setBanIcons] = useState(Array(4).fill(false));
-    const [minusColors, setMinusColors] = useState(['#FF2F2F', '#FFF72F', '#58FF2F', '#2F8EFF']); //線の色
+    // const [minusColors, setMinusColors] = useState(['#FF2F2F', '#FFF72F', '#58FF2F', '#2F8EFF']); //線の色
+    const minusColors = ['#FF2F2F', '#FFF72F', '#58FF2F', '#2F8EFF']; //線の色
     useEffect(() => {
         setBanIcons(alarmsStatus.gimmick.wires.answer);
     }
     , [alarms]);
 
-    const handleMinusClick = (index) => {
+    const handleMinusClick = (index: number) => {
         const newBanIcons = [...banIcons];
         newBanIcons[index] = !newBanIcons[index];
         setBanIcons(newBanIcons);

@@ -1,4 +1,4 @@
-import React , { useEffect, useState } from 'react'
+import React , { useEffect } from 'react'
 import './level.css'
 import { useRecoilState, useRecoilValue} from 'recoil'
 import { dayAlarmState } from '../states/alarmState'
@@ -6,12 +6,10 @@ import { dayAlarmState } from '../states/alarmState'
 const Level = () => {
   const alarms = useRecoilValue(dayAlarmState);
   const [alarmsStatus, setAlarmsStatus] = useRecoilState(dayAlarmState);
-  const [level, setLevel] = useState(alarms.gimmick.level.answer);
 
   const totalButtons = 10;
 
   useEffect(() => {
-    setLevel(alarms.gimmick.level.answer);
     for (let i = 1; i <= totalButtons; i++) {
       const button = document.getElementById(i.toString());
       if (button) {
@@ -31,8 +29,9 @@ const Level = () => {
   }
   , [alarms]);
 
-  const handleClick = (event: { target: { id: 1|2|3|4|5|6|7|8|9|10; }; }) => {
-    const clickedId = Number(event.target.id);
+  const handleClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const id = (event.target as HTMLDivElement).id;
+    const clickedId = Number(id);
     //clickedIdが1~10の場合のみ処理を行う
     if (clickedId < 1 || clickedId > 10 || isNaN(clickedId)) {
       return;
@@ -50,10 +49,8 @@ const Level = () => {
           button.className = 'level';
         }
       }
-      setLevel(0)
       updatedAlarmsStatus = { ...alarmsStatus, gimmick: { ...alarmsStatus.gimmick, level: { ...alarmsStatus.gimmick.level, answer: 0 } } };
     } else {
-      setLevel(clickedId)
       updatedAlarmsStatus = { ...alarmsStatus, gimmick: { ...alarmsStatus.gimmick, level: { ...alarmsStatus.gimmick.level, answer: clickedId } } };
       for (let i = 1; i <= totalButtons; i++) {
         const button = document.getElementById(i.toString());

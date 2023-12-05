@@ -1,3 +1,5 @@
+import { dayManual } from "../types/dayManual";
+
 export async function sendAlarmSettingsToAPI(data: Record<string, any>) {
   try {
     // 実際のAPIエンドポイントにデータを送信するコードをここに実装
@@ -75,7 +77,7 @@ export async function fetchDayAlarmSettingsFromAPI({ day }: { day: 'mon' | 'tue'
   };
 }
 
-export async function sendDayAlarmSettingsToAPI({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun' },data: Record<string, any>) {
+export async function sendDayAlarmSettingsToAPI({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun' },data: dayManual) {
   try {
     // 実際のAPIエンドポイントにデータを送信するコードをここに実装
     console.log('曜日が'+day+'のアラーム設定をサーバーに送信:', data);
