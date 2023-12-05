@@ -13,6 +13,7 @@ import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDice,faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import './Config.css'
+import { dayManual } from '../types/dayManual';
 
 const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun' }) => {
   const [alarms, setAlarms] = useRecoilState(dayAlarmState);
@@ -33,7 +34,7 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
 
   // 保存ボタン
   const save = () => {
-    sendDayAlarmSettingsToAPI({day:day},alarms);
+    sendDayAlarmSettingsToAPI({day:day},alarms as dayManual);
   }
 
   useEffect(() => {

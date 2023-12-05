@@ -5,43 +5,21 @@ import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import './Manual.css';
+import { dayManual } from '../types/dayManual';
 
 const Manual = () => {
 
-  const [gimmickData, setGimmickData] = useState<any>(null);
+  const [gimmickData, setGimmickData] = useState<dayManual>();
   const [weekDay, setWeekDay] = useState<'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun'>('mon');
 
   useEffect(() => {
     //今日の曜日を取得
     const dayOfWeek = new Date().getDay();
-    switch (dayOfWeek) {
-      case 1:
-        setWeekDay('mon');
-        break;
-      case 2:
-        setWeekDay('tue');
-        break;
-      case 3:
-        setWeekDay('wed');
-        break;
-      case 4:
-        setWeekDay('thu');
-        break;
-      case 5:
-        setWeekDay('fri');
-        break;
-      case 6:
-        setWeekDay('sat');
-        break;
-      case 0:
-        setWeekDay('sun');
-        break;
-      default:
-        break;
-    }
+    const daysOfWeek: Array<'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'> = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    setWeekDay(daysOfWeek[dayOfWeek]);
     // 曜日ごとの設定情報をAPIから取得
     fetchDayAlarmSettingsFromAPI({day:weekDay})
-      .then(data => setGimmickData(data))
+      .then(data => setGimmickData(data as dayManual))
       .catch(error => console.error(error));
   }, []);
 
@@ -86,14 +64,14 @@ const Manual = () => {
   //ワイヤーが有効だった場合のマニュアル表示関数
   const wiresManual = () => {
     let monday,tuesday,wednesday,thursday,friday,saturday,sunday : string;
-    (weekDay === 'mon') ? monday = wireManual(gimmickData.gimmick.wires.answer) : monday = wireManual([!gimmickData.gimmick.wires.answer[0],gimmickData.gimmick.wires.answer[1],gimmickData.gimmick.wires.answer[2],gimmickData.gimmick.wires.answer[3]]);
-    (weekDay === 'tue') ? tuesday = wireManual(gimmickData.gimmick.wires.answer) : tuesday = wireManual([gimmickData.gimmick.wires.answer[0],!gimmickData.gimmick.wires.answer[1],gimmickData.gimmick.wires.answer[2],gimmickData.gimmick.wires.answer[3]]);
-    (weekDay === 'wed') ? wednesday = wireManual(gimmickData.gimmick.wires.answer) : wednesday = wireManual([gimmickData.gimmick.wires.answer[0],gimmickData.gimmick.wires.answer[1],!gimmickData.gimmick.wires.answer[2],gimmickData.gimmick.wires.answer[3]]);
-    (weekDay === 'thu') ? thursday = wireManual(gimmickData.gimmick.wires.answer) : thursday = wireManual([gimmickData.gimmick.wires.answer[0],gimmickData.gimmick.wires.answer[1],gimmickData.gimmick.wires.answer[2],!gimmickData.gimmick.wires.answer[3]]);
-    (weekDay === 'fri') ? friday = wireManual(gimmickData.gimmick.wires.answer) : friday = wireManual([!gimmickData.gimmick.wires.answer[0],!gimmickData.gimmick.wires.answer[1],gimmickData.gimmick.wires.answer[2],gimmickData.gimmick.wires.answer[3]]);
-    (weekDay === 'sat') ? saturday = wireManual(gimmickData.gimmick.wires.answer) : saturday = wireManual([gimmickData.gimmick.wires.answer[0],!gimmickData.gimmick.wires.answer[1],!gimmickData.gimmick.wires.answer[2],gimmickData.gimmick.wires.answer[3]]);
-    (weekDay === 'sun') ? sunday = wireManual(gimmickData.gimmick.wires.answer) : sunday = wireManual([gimmickData.gimmick.wires.answer[0],gimmickData.gimmick.wires.answer[1],!gimmickData.gimmick.wires.answer[2],!gimmickData.gimmick.wires.answer[3]]);
-
+    if(gimmickData){
+      (weekDay === 'mon') ? monday = wireManual(gimmickData.gimmick.wires.answer) : monday = wireManual([!gimmickData.gimmick.wires.answer[0],gimmickData.gimmick.wires.answer[1],gimmickData.gimmick.wires.answer[2],gimmickData.gimmick.wires.answer[3]]);
+      (weekDay === 'tue') ? tuesday = wireManual(gimmickData.gimmick.wires.answer) : tuesday = wireManual([gimmickData.gimmick.wires.answer[0],!gimmickData.gimmick.wires.answer[1],gimmickData.gimmick.wires.answer[2],gimmickData.gimmick.wires.answer[3]]);
+      (weekDay === 'wed') ? wednesday = wireManual(gimmickData.gimmick.wires.answer) : wednesday = wireManual([gimmickData.gimmick.wires.answer[0],gimmickData.gimmick.wires.answer[1],!gimmickData.gimmick.wires.answer[2],gimmickData.gimmick.wires.answer[3]]);
+      (weekDay === 'thu') ? thursday = wireManual(gimmickData.gimmick.wires.answer) : thursday = wireManual([gimmickData.gimmick.wires.answer[0],gimmickData.gimmick.wires.answer[1],gimmickData.gimmick.wires.answer[2],!gimmickData.gimmick.wires.answer[3]]);
+      (weekDay === 'fri') ? friday = wireManual(gimmickData.gimmick.wires.answer) : friday = wireManual([!gimmickData.gimmick.wires.answer[0],!gimmickData.gimmick.wires.answer[1],gimmickData.gimmick.wires.answer[2],gimmickData.gimmick.wires.answer[3]]);
+      (weekDay === 'sat') ? saturday = wireManual(gimmickData.gimmick.wires.answer) : saturday = wireManual([gimmickData.gimmick.wires.answer[0],!gimmickData.gimmick.wires.answer[1],!gimmickData.gimmick.wires.answer[2],gimmickData.gimmick.wires.answer[3]]);
+      (weekDay === 'sun') ? sunday = wireManual(gimmickData.gimmick.wires.answer) : sunday = wireManual([gimmickData.gimmick.wires.answer[0],gimmickData.gimmick.wires.answer[1],!gimmickData.gimmick.wires.answer[2],!gimmickData.gimmick.wires.answer[3]]);
     return (
       <div>
         <ul>
@@ -140,6 +118,8 @@ const Manual = () => {
         </table>
       </div>
     );
+    }
+    return null;
   }
 
   //トグルスイッチ
@@ -214,6 +194,9 @@ const Manual = () => {
   //レベルメーター
   const levelManual = () => {
     //今日の日だけを取得
+    if(!gimmickData){
+      return null;
+    }
     const answerLevel : number = gimmickData.gimmick.level.answer;
     const day = new Date().getDate();
     let levela,levelb,levelc,leveld : number;
@@ -310,7 +293,7 @@ const Manual = () => {
       </div>
       <div className='manual-accordion-box'>
         <Accordion alwaysOpen>
-          {gimmickData && Object.keys(gimmickData.gimmick).map((key) =>
+          {gimmickData && (Object.keys(gimmickData.gimmick) as Array<keyof typeof gimmickData.gimmick>).map((key) =>
             gimmickData.gimmick[key].enable && <Accordion.Item eventKey={key} key={key}>
               <AccordionHeader>
                 {key === 'wires' && <span>ワイヤー</span>}
