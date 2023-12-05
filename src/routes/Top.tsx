@@ -167,7 +167,7 @@ const Top: React.FC = () => {
 
   return (
   <div className="top-container">
-    <div className='app-name mt-3 mb-3'>
+    <div className='mt-3 mb-3'>
       <h1>Gimmit</h1>
     </div>
     <div className='time-limit'>
@@ -179,22 +179,20 @@ const Top: React.FC = () => {
     {days.map((day) => (
       <div className='time-container' key={day.label}>
         <span id={`label-of-${day.state[0].en}`} className='day-of-week ms-3'>{day.label}</span>
-        <Form.Control type="time" value={day.state[0].time} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTimeChange(day.label, e)} className='timer' style={{ width: '40%' }}/>
+        <Form.Control type="time" value={day.state[0].time} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTimeChange(day.label, e)} style={{ width: '40%' }}/>
         <Link to={`/${day.state[0].en}/config`} className='setting-btn'>
           <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 31 31" fill="none">
             <path opacity="0.4" d="M15.8232 20.263C18.4537 20.263 20.5862 18.1305 20.5862 15.4999C20.5862 12.8693 18.4537 10.7368 15.8232 10.7368C13.1926 10.7368 11.0601 12.8693 11.0601 15.4999C11.0601 18.1305 13.1926 20.263 15.8232 20.263Z" stroke="white" strokeWidth="1.5" strokeLinecap="square"/>
             <path d="M24.6112 24.1743L24.0455 20.2473L27.7291 18.7737V12.2265L24.0468 10.7534L24.6126 6.8257L18.9425 3.55208L15.8237 6.00597L12.705 3.55208L7.03488 6.8257L7.60051 10.7527L3.91663 12.2265V18.7737L7.6018 20.248L7.03627 24.1743L12.7064 27.4479L15.8237 24.9952L18.9411 27.4479L24.6112 24.1743Z" stroke="white" strokeWidth="1.5" strokeLinecap="square"/>
           </svg>
         </Link>
-        <Form>
-          <Form.Check
-            type="switch"
-            /* 修正前id={`custom-switch-${day.label}`} */
-            id={`custom-switch-${day.state[0].en}`}
-            checked={day.state[0].checked}
-            onChange={(e) => handleCheckChange(day.label, e)}
-          />
-        </Form>
+        <Form.Check
+          type="switch"
+          /* 修正前id={`custom-switch-${day.label}`} */
+          id={`custom-switch-${day.state[0].en}`}
+          checked={day.state[0].checked}
+          onChange={(e) => handleCheckChange(day.label, e)}
+        />
       </div>
     ))}
     </div>
