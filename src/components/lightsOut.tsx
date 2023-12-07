@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { dayAlarmState } from '../states/alarmState'
 
+//TODO:ライツアウトの順番を左下から1,2,3,4,5,6,7,8,9とする
+
 // ライツアウト配列
 const LightsOut = () => {
   const alarms = useRecoilValue(dayAlarmState);
@@ -15,9 +17,12 @@ const LightsOut = () => {
 
   useEffect(() => {
     setLights([
-      [alarms.gimmick.lightsOut.default[0], alarms.gimmick.lightsOut.default[1], alarms.gimmick.lightsOut.default[2]],
+      // [alarms.gimmick.lightsOut.default[0], alarms.gimmick.lightsOut.default[1], alarms.gimmick.lightsOut.default[2]],
+      // [alarms.gimmick.lightsOut.default[3], alarms.gimmick.lightsOut.default[4], alarms.gimmick.lightsOut.default[5]],
+      // [alarms.gimmick.lightsOut.default[6], alarms.gimmick.lightsOut.default[7], alarms.gimmick.lightsOut.default[8]]
+      [alarms.gimmick.lightsOut.default[6], alarms.gimmick.lightsOut.default[7], alarms.gimmick.lightsOut.default[8]],
       [alarms.gimmick.lightsOut.default[3], alarms.gimmick.lightsOut.default[4], alarms.gimmick.lightsOut.default[5]],
-      [alarms.gimmick.lightsOut.default[6], alarms.gimmick.lightsOut.default[7], alarms.gimmick.lightsOut.default[8]]
+      [alarms.gimmick.lightsOut.default[0], alarms.gimmick.lightsOut.default[1], alarms.gimmick.lightsOut.default[2]]
     ]);
   }, [alarms]);
 
@@ -28,7 +33,7 @@ const LightsOut = () => {
       )
     );
     setLights(newLights);
-    updatedAlarmsStatus = { ...alarmsStatus, gimmick: { ...alarmsStatus.gimmick, lightsOut: { ...alarmsStatus.gimmick.lightsOut, default: newLights[0].concat(newLights[1], newLights[2]) } } };
+    updatedAlarmsStatus = { ...alarmsStatus, gimmick: { ...alarmsStatus.gimmick, lightsOut: { ...alarmsStatus.gimmick.lightsOut, default: newLights[2].concat(newLights[1], newLights[0]) } } };
     setAlarmsStatus(updatedAlarmsStatus);
   };
 
