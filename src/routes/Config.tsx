@@ -17,6 +17,7 @@ import { dayManual } from '../types/dayManual';
 
 const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun' }) => {
   const [alarms, setAlarms] = useRecoilState(dayAlarmState);
+  const [gimmickNum, setGimmickNum] = React.useState(5);
   let updatedAlarmsStatus: typeof alarms = { ...alarms };
   
   // 画面が最初に呼び出されたときにAPIから設定情報を取得
@@ -120,6 +121,18 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
 
   //alarmsのgimmickの中身をランダムにする
   function Random(){
+    const randomArray = Array(5).fill(false);
+    for(let i = 0; i < gimmickNum; i++){
+      randomArray[i] = true;
+    }
+    //配列をシャッフル
+    for (let i = randomArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [randomArray[i], randomArray[j]] = [randomArray[j], randomArray[i]];
+    }
+    //オンオフを指定された数だけランダムにする
+    updatedAlarmsStatus = { ...alarms, gimmick: { ...alarms.gimmick, wires: { ...alarms.gimmick.wires, enable : randomArray[0]} , toggleSW: { ...alarms.gimmick.toggleSW, enable : randomArray[1]} , keySW: { ...alarms.gimmick.keySW, enable : randomArray[2]} , lightsOut: { ...alarms.gimmick.lightsOut, enable : randomArray[3]} , level: { ...alarms.gimmick.level, enable : randomArray[4]} } };
+    setAlarms(updatedAlarmsStatus);
     //ワイヤースイッチのランダム化
     randomWires();
     //トグルスイッチのランダム化
@@ -156,6 +169,14 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
     setAlarms(updatedAlarmsStatus);
   }
 
+  function handleSelector(e: React.ChangeEvent<HTMLSelectElement>) {
+    //e.target.valueが1~5の場合のみ更新
+    if(Number(e.target.value) >= 1 && Number(e.target.value) <= 5){
+      setGimmickNum(Number(e.target.value));
+      //enableComponentの引数にはgimmickの名前を渡す      
+    }
+  }
+
   return (
     <div id='wrapper'>
       <header className='config-header p-3 sticky-top'>
@@ -170,8 +191,16 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
       <div className='timerSettingBox mb-3'>
         <Form.Control type='time' id='config-timer' onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTimeChange(e)} className='w-50 mx-auto'></Form.Control>
       </div>
-      <div>
-        <Button onClick={Random} className='d-block mb-3 mx-auto btn-secondary'><FontAwesomeIcon icon={faDice}  /> 全ギミックをランダム設定</Button>
+      <div className='d-flex align-items-center my-2'>
+        <Form.Select aria-label='Default select example' className='config-number-selector mx-auto d-inline' defaultValue='5' onChange={handleSelector}>
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4</option>
+            <option value='5'>5</option>
+        </Form.Select>
+        <span className='text-white'>個のギミックを</span>
+        <Button onClick={Random} className='mx-auto btn-secondary'><FontAwesomeIcon icon={faDice}  /> ランダムに設定</Button>
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
