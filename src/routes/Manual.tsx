@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { Accordion, AccordionHeader } from 'react-bootstrap';
-import { fetchDayAlarmSettingsFromAPI } from '../api/alarmApi';
+import { Accordion, AccordionHeader} from 'react-bootstrap';
+import Button from 'react-bootstrap/Button';
+import { fetchDayAlarmSettingsFromAPI, sendGimmickToAPI } from '../api/alarmApi';
 import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
@@ -273,7 +274,20 @@ const Manual = () => {
         <span className='text-white fs-3 p-1 mx-auto'>Gimmit</span>
       </header>
       <div className='manual-text-box'>
-        <span className='h2 my-3 d-block'>マニュアル</span>
+        <div className='manual-head-box'>
+          <span className='h2 my-3'>マニュアル </span>
+          <Button 
+              variant="outline-dark"
+              className='my-3 practice-btn'
+              onClick={async () => {
+                const days = ['sun','mon','tue','wed','thu','fri','sat'];
+                const day = days[new Date().getDay()];
+                await sendGimmickToAPI( {day} );
+              }}
+            >
+            お試し
+          </Button>
+        </div>
         <p>これは、爆弾解除をモチーフに作られた新感覚目覚まし時計です。</p>
         <p>あなたは以下のマニュアルをよく読んで制限時間内に必要なギミックをすべてクリアし、爆弾解除を目指してください。</p>
         <span className='h2 my-3 d-block'>解除までの流れ</span>
@@ -292,26 +306,27 @@ const Manual = () => {
         </ul>
       </div>
       <div className='manual-accordion-box'>
-        <Accordion alwaysOpen>
-          {gimmickData && (Object.keys(gimmickData.gimmick) as Array<keyof typeof gimmickData.gimmick>).map((key) =>
-            gimmickData.gimmick[key].enable && <Accordion.Item eventKey={key} key={key}>
-              <AccordionHeader>
-                {key === 'wires' && <span>ワイヤー</span>}
-                {key === 'toggleSW' && <span>トグルスイッチ</span>}
-                {key === 'keySW' && <span>キースイッチ</span>}
-                {key === 'lightsOut' && <span>ライツアウト</span>}
-                {key === 'level' && <span>レベルメーター</span>}
-              </AccordionHeader>
-              <Accordion.Body>
-                {key === 'wires' && wiresManual()}
-                {key === 'toggleSW' && toggleSWManual()}
-                {key === 'keySW' && keySWManual()}
-                {key === 'lightsOut' && lightsOutManual()}
-                {key === 'level' && levelManual()}
-              </Accordion.Body>
-            </Accordion.Item>
-          )}
-        </Accordion>
+        {gimmickData && (Object.keys(gimmickData.gimmick) as Array<keyof typeof gimmickData.gimmick>).map((key) =>
+          gimmickData.gimmick[key].enable &&
+            <Accordion defaultActiveKey={key} key={key}>
+              <Accordion.Item eventKey={key} key={key}>
+                <AccordionHeader>
+                  {key === 'wires' && <span>ワイヤー</span>}
+                  {key === 'toggleSW' && <span>トグルスイッチ</span>}
+                  {key === 'keySW' && <span>キースイッチ</span>}
+                  {key === 'lightsOut' && <span>ライツアウト</span>}
+                  {key === 'level' && <span>レベルメーター</span>}
+                </AccordionHeader>
+                <Accordion.Body>
+                  {key === 'wires' && wiresManual()}
+                  {key === 'toggleSW' && toggleSWManual()}
+                  {key === 'keySW' && keySWManual()}
+                  {key === 'lightsOut' && lightsOutManual()}
+                  {key === 'level' && levelManual()}
+                </Accordion.Body>
+              </Accordion.Item>
+            </Accordion>
+        )}
       </div>
     </div>
   );

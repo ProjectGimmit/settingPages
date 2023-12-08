@@ -26,6 +26,11 @@
     padding: 20px;
 }
 
+.manual-head-box {
+    display: flex;
+    justify-content: space-between;
+}
+
 .manual-text-box p,.manual-text-box li{
     margin-top: 5px;
 }
