@@ -99,3 +99,14 @@ export async function sendDayTimerSettingToAPI({ day }: { day: string },data: Re
     throw error;
   }
 }
+
+//試しにギミックを実行する処理をサーバーに送信
+export async function sendGimmickToAPI({ day }: { day: string }) {
+  try {
+    console.log(day+'のギミックを実行:');
+    // 実際のAPIとの通信を行うコードをここに実装
+  } catch (error) {
+    console.error('APIデータ送信エラー:', error);
+    throw error;
+  }
+}
