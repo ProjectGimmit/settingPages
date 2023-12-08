@@ -58,3 +58,13 @@ body{
     font-size: 1.5em;
     margin: 0 10px;
  }
+
+ .config-number-selector{
+    width: 4em !important;
+ }
+
+ .random-box{
+    width: fit-content;
+    display: flex;
+    justify-content: space-between;
+ }

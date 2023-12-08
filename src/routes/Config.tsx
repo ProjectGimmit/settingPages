@@ -1,6 +1,8 @@
 import React,{useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
+import Modal from 'react-bootstrap/Modal';
+import Toast from 'react-bootstrap/Toast';
 import { dayAlarmState } from '../states/alarmState'
 import { useRecoilState } from 'recoil'
 import { sendDayAlarmSettingsToAPI,fetchDayAlarmSettingsFromAPI } from '../api/alarmApi'
@@ -17,6 +19,10 @@ import { dayManual } from '../types/dayManual';
 
 const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun' }) => {
   const [alarms, setAlarms] = useRecoilState(dayAlarmState);
+  const [gimmickNum, setGimmickNum] = React.useState(5);
+  const [saveAlarms, setSaveAlarms] = React.useState(alarms);
+  const [showToast, setShowToast] = React.useState(false);
+  const [modalShow, setModalShow] = React.useState(false);
   let updatedAlarmsStatus: typeof alarms = { ...alarms };
   
   // 画面が最初に呼び出されたときにAPIから設定情報を取得
@@ -25,6 +31,7 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
       try {
         const data = await fetchDayAlarmSettingsFromAPI({day:day});
         setAlarms(data);
+        setSaveAlarms(data);
       } catch (error) {
         // エラーハンドリング
       }
@@ -35,6 +42,51 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
   // 保存ボタン
   const save = () => {
     sendDayAlarmSettingsToAPI({day:day},alarms as dayManual);
+    setShowToast(true);
+    setSaveAlarms(alarms);
+  }
+
+  //modal
+  interface MyVerticallyCenteredModalProps {
+    onHide: () => void;
+  }
+
+  function MyVerticallyCenteredModal(props: MyVerticallyCenteredModalProps) {
+    return (
+      <Modal
+        {...props}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">
+            変更が保存されていません
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <p className='mb-0'>
+            本当に戻ってもよろしいですか？
+          </p>
+        </Modal.Body>
+        <Modal.Footer className='justify-content-between'>
+          <Link to={'/'}>
+            <Button className='btn-danger' onClick={props.onHide}>保存せずに戻る</Button>
+          </Link>
+          <Link to={'/'}>
+            <Button className='btn-success' onClick={() => {save();props.onHide()}}>保存して戻る</Button>
+          </Link>
+        </Modal.Footer>
+      </Modal>
+    );
+  }
+
+  function handleBack(e : React.MouseEvent<SVGSVGElement, MouseEvent>){
+    //Linkでの画面遷移を防ぐ
+    if(JSON.stringify(saveAlarms) !== JSON.stringify(alarms)){
+      e.preventDefault();
+    }
+    setModalShow(true);
   }
 
   useEffect(() => {
@@ -120,6 +172,18 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
 
   //alarmsのgimmickの中身をランダムにする
   function Random(){
+    const randomArray = Array(5).fill(false);
+    for(let i = 0; i < gimmickNum; i++){
+      randomArray[i] = true;
+    }
+    //配列をシャッフル
+    for (let i = randomArray.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [randomArray[i], randomArray[j]] = [randomArray[j], randomArray[i]];
+    }
+    //オンオフを指定された数だけランダムにする
+    updatedAlarmsStatus = { ...alarms, gimmick: { ...alarms.gimmick, wires: { ...alarms.gimmick.wires, enable : randomArray[0]} , toggleSW: { ...alarms.gimmick.toggleSW, enable : randomArray[1]} , keySW: { ...alarms.gimmick.keySW, enable : randomArray[2]} , lightsOut: { ...alarms.gimmick.lightsOut, enable : randomArray[3]} , level: { ...alarms.gimmick.level, enable : randomArray[4]} } };
+    setAlarms(updatedAlarmsStatus);
     //ワイヤースイッチのランダム化
     randomWires();
     //トグルスイッチのランダム化
@@ -156,27 +220,49 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
     setAlarms(updatedAlarmsStatus);
   }
 
+  function handleSelector(e: React.ChangeEvent<HTMLSelectElement>) {
+    //e.target.valueが1~5の場合のみ更新
+    if(Number(e.target.value) >= 1 && Number(e.target.value) <= 5){
+      setGimmickNum(Number(e.target.value));
+    }
+  }
+
   return (
-    <div id='wrapper'>
-      <header className='config-header p-3 sticky-top'>
-        <div className='config-back'>
-          <Link to={'/'}>
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </Link>
+    <div>
+    <header className='config-header p-3 sticky-top'>
+    <Toast style={{ position: 'fixed', top: '5%', left: '50%', transform: 'translate(-50%, -50%)', width: '10em' }} show={showToast} onClose={() => setShowToast(false)} delay={3000} autohide className='saveToast'>
+      <Toast.Body>保存しました</Toast.Body>
+    </Toast>
+      <div className='config-back'>
+        <Link to={'/'}>
+          <FontAwesomeIcon icon={faChevronLeft}  onClick={handleBack}/>
+        </Link>
+        <MyVerticallyCenteredModal
+          {...{ show: modalShow, onHide: () => setModalShow(false) }}
+        />
         </div>
         <span className='text-white fs-3 p-1'>Gimmit</span>
-        <div className='btn btn-outline-success p-2' onClick={save}>保存</div>
-      </header>
+      <div className='btn btn-outline-success p-2' onClick={save}>保存</div>
+    </header>
+    <div id='wrapper'>
       <div className='timerSettingBox mb-3'>
         <Form.Control type='time' id='config-timer' onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTimeChange(e)} className='w-50 mx-auto'></Form.Control>
       </div>
-      <div>
-        <Button onClick={Random} className='d-block mb-3 mx-auto btn-secondary'><FontAwesomeIcon icon={faDice}  /> 全ギミックをランダム設定</Button>
+      <div className='align-items-center my-2 mx-auto random-box'>
+        <Form.Select aria-label='Default select example' className='config-number-selector d-inline' defaultValue='5' onChange={handleSelector}>
+            <option value='1'>1</option>
+            <option value='2'>2</option>
+            <option value='3'>3</option>
+            <option value='4'>4</option>
+            <option value='5'>5</option>
+        </Form.Select>
+        <span className='text-white mx-3'>個のギミックを</span>
+        <Button onClick={Random} className='btn-secondary'><FontAwesomeIcon icon={faDice}  /> ランダムに設定</Button>
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
           <span className='configComponentBoxTitle'>ワイヤースイッチ</span>
-            <Form.Check // prettier-ignore
+            <Form.Check
               id='wiresCheck'
               onClick={() => Check('wires')}
               type="switch"
@@ -190,7 +276,7 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
           <span className='configComponentBoxTitle'>トグルスイッチ</span>
-            <Form.Check // prettier-ignore
+            <Form.Check 
               id='toggleSWCheck'
               onClick={() => Check('toggleSW')}
               type="switch"
@@ -204,7 +290,7 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
           <span className='configComponentBoxTitle'>キースイッチ</span>
-            <Form.Check // prettier-ignore
+            <Form.Check
               id='keySWCheck'
               onClick={() => Check('keySW')}
               type="switch"
@@ -218,7 +304,7 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
           <span className='configComponentBoxTitle'>ライツアウト</span>
-            <Form.Check // prettier-ignore
+            <Form.Check
               id='lightsOutCheck'
               onClick={() => Check('lightsOut')}
               type="switch"
@@ -232,7 +318,7 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader configComponentBoxHeaderLast'>
           <span className='configComponentBoxTitle'>レベルメーター</span>
-            <Form.Check // prettier-ignore
+            <Form.Check
               id='levelCheck'
               onClick={() => Check('level')}
               type="switch"
@@ -245,6 +331,7 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
           </div>
         </div>
       </div>
+    </div>
     </div>
   )
 }
