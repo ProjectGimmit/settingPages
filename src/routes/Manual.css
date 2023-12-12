@@ -18,6 +18,7 @@
 }
 
 .manual-body{
+    background-color: white;
     min-height: 100vh;
     /* background-color: black; */
 }
@@ -41,4 +42,31 @@
 
 .manual-level-table{
     font-size: 0.8em;
+}
+/* PC */
+@media screen and (min-width: 768px){
+	/* PCに適用するCSS*/
+    .manual-body {
+        /* PCで見てもスマホと同じ画面幅で表示する */
+        width: 480px;
+        margin: 0 auto;
+        border-right: 1px solid white;
+        border-left: 1px solid white;
+    }
+}
+/* Tablet */
+@media screen and (max-width: 768px){
+	/* タブレット画面に適用するCSS*/
+    .manual-body {
+        /* タブレット画面で画面幅いっぱいに表示する */
+        width: 100%;
+    }
+}
+/* SmartPhone */
+@media screen and (max-width: 480px){
+	/* スマホ画面に適用するCSS*/
+    .manual-body {
+        /* スマホ画面で画面幅いっぱいに表示する */
+        width: 100%;
+    }
 }
