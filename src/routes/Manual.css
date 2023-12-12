@@ -1,5 +1,5 @@
 .manual-header{
-    background-color: black;
+    background-color: #1E1E1E;
     display: flex;
 }
 
@@ -18,12 +18,13 @@
 }
 
 .manual-body{
-    background-color: white;
+    background-color: white!important;
     min-height: 100vh;
-    /* background-color: black; */
+    background-color: #1E1E1E;
 }
 
 .manual-text-box{
+    background-color: white;
     padding: 20px;
 }
 
