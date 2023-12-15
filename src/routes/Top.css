@@ -5,7 +5,7 @@
     min-height: 100vh;
     height: fit-content;
     color: white;
-    background-color: black;
+    background-color: #1E1E1E;
 }
 .time-limit {
     text-align: center;
@@ -65,6 +65,36 @@
 #custom-switch-mon, #custom-switch-tue, #custom-switch-wed, #custom-switch-thu, #custom-switch-fri, #custom-switch-sat, #custom-switch-sun {
     width: 4em;
     height: 2em;
+}
+/* PC */
+@media screen and (min-width: 768px){
+	/* PCに適用するCSS*/
+    .top-container {
+        /* PCで見てもスマホと同じ画面幅で表示する */
+        width: 480px;
+        margin: 0 auto;
+        border-right: 1px solid white;
+        border-left: 1px solid white;
+    }
+    .timer-box {
+        padding: 0 20px;
+    }
+}
+/* Tablet */
+@media screen and (max-width: 768px){
+	/* タブレット画面に適用するCSS*/
+    .top-container {
+        /* タブレット画面で画面幅いっぱいに表示する */
+        width: 100%;
+    }
+}
+/* SmartPhone */
+@media screen and (max-width: 480px){
+	/* スマホ画面に適用するCSS*/
+    .top-container {
+        /* スマホ画面で画面幅いっぱいに表示する */
+        width: 100%;
+    }
 }
 /* 
 input[type="time"]::-webkit-calendar-picker-indicator {

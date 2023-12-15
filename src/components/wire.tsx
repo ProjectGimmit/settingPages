@@ -8,8 +8,8 @@ return (
     <div style={{ position: 'relative', margin: '0 0px' }}>
     {!isBanVisible && (
         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="155" viewBox="0 0 14 103" fill="none" onClick={onMinusClick}>
-            <rect y="30" width="14" height="20" fill="black"/>
-            <rect y="53" width="14" height="20" fill="black"/>
+            <rect y="30" width="14" height="20" fill="#7D7D7D"/>
+            <rect y="53" width="14" height="20" fill="#7D7D7D"/>
             <rect x="5" width="5" height="30" fill={minusColor}/>
             <rect x="5" y="73" width="5" height="30" fill={minusColor}/>
         </svg>
@@ -18,7 +18,7 @@ return (
 
     {isBanVisible && (
         <svg xmlns="http://www.w3.org/2000/svg" width="21" height="155" viewBox="0 0 14 103" fill="none" onClick={onMinusClick}>
-            <rect y="30" width="14" height="43" fill="black"/>
+            <rect y="30" width="14" height="43" fill="#7D7D7D"/>
             <rect x="5" width="5" height="30" fill={minusColor}/>
             <rect x="5" y="73" width="5" height="30" fill={minusColor}/>
         </svg>
