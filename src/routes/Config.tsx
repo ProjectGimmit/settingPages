@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react'
+import React,{useEffect, useState} from 'react'
 import { Link } from 'react-router-dom'
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
@@ -45,6 +45,9 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
     setShowToast(true);
     setSaveAlarms(alarms);
   }
+
+  // 変更前の時間を保持
+  const [prevValue, setPrevValue] = useState(alarms.alarm.slice(0, 2) + ':' + alarms.alarm.slice(2, 4));
 
   //modal
   interface MyVerticallyCenteredModalProps {
@@ -246,7 +249,20 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
     </header>
     <div id='wrapper'>
       <div className='timerSettingBox mb-3'>
-        <Form.Control type='time' id='config-timer' onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTimeChange(e)} className='w-50 mx-auto'></Form.Control>
+        <Form.Control
+          type='time'
+          id='config-timer'
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            const value = e.target.value;
+            if (value === '') {
+              e.target.value = prevValue;
+            } else {
+              setPrevValue(value);
+              handleTimeChange(e);
+            }
+          }}
+          className='w-50 mx-auto'>
+        </Form.Control>
       </div>
       <div className='align-items-center my-2 mx-auto random-box'>
         <Form.Select aria-label='Default select example' className='config-number-selector d-inline' defaultValue='5' onChange={handleSelector}>

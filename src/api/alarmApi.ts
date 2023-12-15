@@ -81,6 +81,9 @@ export async function sendDayAlarmSettingsToAPI({ day }: { day: 'mon' | 'tue' | 
   try {
     // 実際のAPIエンドポイントにデータを送信するコードをここに実装
     console.log('曜日が'+day+'のアラーム設定をサーバーに送信:', data);
+    if(data.alarm === ""){
+      throw new Error("アラーム時刻が未入力です");
+    }
     // 実際のAPIとの通信を行うコードをここに実装
   } catch (error) {
     console.error('APIデータ送信エラー:', error);
@@ -93,6 +96,9 @@ export async function sendDayTimerSettingToAPI({ day }: { day: string },data: Re
   try {
     // 実際のAPIエンドポイントにデータを送信するコードをここに実装
     console.log('曜日が'+day+'のタイマー設定をサーバーに送信:', data);
+    if(data.alarm === ""){
+      throw new Error("アラーム時刻が未入力です");
+    }
     // 実際のAPIとの通信を行うコードをここに実装
   } catch (error) {
     console.error('APIデータ送信エラー:', error);
