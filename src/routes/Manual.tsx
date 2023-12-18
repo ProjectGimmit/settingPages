@@ -257,7 +257,7 @@ const Manual = () => {
           <span className='text-white fs-3 p-1 mx-auto'>Gimmit</span>
         </header>
         <div>
-          <img src="./images/error_logo.jpg" alt="" className='p-3 w-100' />
+          <img src="./images/error_logo.png" alt="" className='p-3 w-100' />
         </div>
       </div>
     );
@@ -290,10 +290,10 @@ const Manual = () => {
           </Button>
         </div>
         <p>これは、爆弾解除をモチーフに作られた新感覚目覚まし時計です。</p>
-        <p>あなたは以下のマニュアルをよく読んで制限時間内に必要なギミックをすべてクリアし、爆弾解除を目指してください。</p>
+        <p>あなたは以下のマニュアルをよく読んで制限時間内に必要なギミックをすべてクリアし、アラーム解除を目指してください。</p>
         <span className='h2 my-3 d-block'>解除までの流れ</span>
         <ul>
-          <li>爆弾解除に必要なギミックは左上にあるランプの状態で決まります。</li>
+          <li>アラーム解除に必要なギミックは左上にあるランプの状態で決まります。</li>
           <ul>
             <li>どちらも点灯していない場合</li>
             <p>今日そのギミックはクリアする必要はありません。</p>

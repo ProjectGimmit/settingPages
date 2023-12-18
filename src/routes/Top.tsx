@@ -171,7 +171,7 @@ const Top: React.FC = () => {
       <h1>Gimmit</h1>
     </div>
     <div className='time-limit'>
-      <div>爆弾解除まで残り</div>
+      <div>アラーム解除まで残り</div>
       <div className='time'>{time}</div>
     </div>
 
