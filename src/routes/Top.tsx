@@ -179,7 +179,16 @@ const Top: React.FC = () => {
     {days.map((day) => (
       <div className='time-container' key={day.label}>
         <span id={`label-of-${day.state[0].en}`} className='day-of-week ms-3'>{day.label}</span>
-        <Form.Control type="time" value={day.state[0].time} onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTimeChange(day.label, e)} style={{ width: '40%' }}/>
+        <Form.Control 
+          type="time" 
+          value={day.state[0].time} 
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+            if (e.target.value !== '') {
+              handleTimeChange(day.label, e)
+            } 
+          }}
+          style={{ width: '40%' }}
+        />
         <Link to={`/${day.state[0].en}/config`} className='setting-btn'>
           <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 31 31" fill="none">
             <path opacity="0.4" d="M15.8232 20.263C18.4537 20.263 20.5862 18.1305 20.5862 15.4999C20.5862 12.8693 18.4537 10.7368 15.8232 10.7368C13.1926 10.7368 11.0601 12.8693 11.0601 15.4999C11.0601 18.1305 13.1926 20.263 15.8232 20.263Z" stroke="white" strokeWidth="1.5" strokeLinecap="square"/>

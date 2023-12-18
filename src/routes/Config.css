@@ -1,5 +1,6 @@
 .configComponentBox {
-    background-color: white;
+    background-color: #353535;
+    color: white;
     text-align: center;
 }
 
@@ -37,7 +38,7 @@ body{
 #wrapper {
     min-height: 100vh;
     height: fit-content;
-    background-color: black;
+    background-color: #1E1E1E;
 }
 
 .gimmickComponent{
@@ -45,7 +46,7 @@ body{
 }
 
 .config-header{
-    background-color: black;
+    background-color: #1E1E1E;
     display: flex;
     justify-content: space-between;
  }
@@ -68,3 +69,30 @@ body{
     display: flex;
     justify-content: space-between;
  }
+ /* PC */
+@media screen and (min-width: 768px){
+	/* PCに適用するCSS*/
+    .configContainer {
+        /* PCで見てもスマホと同じ画面幅で表示する */
+        width: 480px;
+        margin: 0 auto;
+        border-right: 1px solid white;
+        border-left: 1px solid white;
+    }
+}
+/* Tablet */
+@media screen and (max-width: 768px){
+	/* タブレット画面に適用するCSS*/
+    .configContainer {
+        /* タブレット画面で画面幅いっぱいに表示する */
+        width: 100%;
+    }
+}
+/* SmartPhone */
+@media screen and (max-width: 480px){
+	/* スマホ画面に適用するCSS*/
+    .configContainer {
+        /* スマホ画面で画面幅いっぱいに表示する */
+        width: 100%;
+    }
+}
