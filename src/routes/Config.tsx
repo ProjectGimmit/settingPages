@@ -15,9 +15,9 @@ import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDice,faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import './Config.css'
-import { dayManual } from '../types/dayManual';
+import { dayManual,weekDay } from '../types/dayManual';
 
-const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun' }) => {
+const Config = ({ day }: { day: weekDay }) => {
   const [alarms, setAlarms] = useRecoilState(dayAlarmState);
   const [gimmickNum, setGimmickNum] = React.useState(5);
   const [saveAlarms, setSaveAlarms] = React.useState(alarms);
@@ -132,7 +132,6 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
   function handleTimeChange(e: React.ChangeEvent<HTMLInputElement>) {
     //e.target.value(HH:mm)を(HHmm)に変換
     const time = e.target.value.split(':').join('');
-    console.log(time);
     updatedAlarmsStatus = { ...alarms, alarm: time };
     setAlarms(updatedAlarmsStatus);
   }
@@ -232,11 +231,11 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
 
   return (
     <div className='configContainer'>
-    <header className='config-header p-3 sticky-top'>
+    <header className='config-header p-3 sticky-top d-flex align-items-center'>
     <Toast style={{ position: 'fixed', top: '5%', left: '50%', transform: 'translate(-50%, -50%)', width: '10em' }} show={showToast} onClose={() => setShowToast(false)} delay={3000} autohide className='saveToast'>
       <Toast.Body>保存しました</Toast.Body>
     </Toast>
-      <div className='config-back'>
+      <div className='config-back d-inline'>
         <Link to={'/'}>
           <FontAwesomeIcon icon={faChevronLeft}  onClick={handleBack}/>
         </Link>
