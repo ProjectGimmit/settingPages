@@ -3,6 +3,10 @@
     display: flex;
 }
 
+.manual-header-empty{
+    width: 1.5em;
+}
+
 .manual-back a{
     color: white;
     font-size: 1.5em;

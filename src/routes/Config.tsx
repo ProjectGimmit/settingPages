@@ -232,11 +232,11 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
 
   return (
     <div className='configContainer'>
-    <header className='config-header p-3 sticky-top'>
+    <header className='config-header p-3 sticky-top d-flex align-items-center'>
     <Toast style={{ position: 'fixed', top: '5%', left: '50%', transform: 'translate(-50%, -50%)', width: '10em' }} show={showToast} onClose={() => setShowToast(false)} delay={3000} autohide className='saveToast'>
       <Toast.Body>保存しました</Toast.Body>
     </Toast>
-      <div className='config-back'>
+      <div className='config-back d-inline'>
         <Link to={'/'}>
           <FontAwesomeIcon icon={faChevronLeft}  onClick={handleBack}/>
         </Link>

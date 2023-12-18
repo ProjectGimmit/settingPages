@@ -265,13 +265,14 @@ const Manual = () => {
 
   return (
     <div className='manual-body'>
-      <header className='manual-header p-3 sticky-top'>
-        <div className='manual-back position-absolute'>
+      <header className='manual-header p-3 sticky-top d-flex align-items-center justify-content-between'>
+        <div className='manual-back'>
           <Link to={'/'}>
             <FontAwesomeIcon icon={faChevronLeft} />
           </Link>
         </div>
-        <span className='text-white fs-3 p-1 mx-auto'>Gimmit</span>
+        <span className='text-white fs-3'>Gimmit</span>
+        <div className='manual-header-empty'></div>
       </header>
       <div className='manual-text-box'>
         <div className='manual-head-box'>
