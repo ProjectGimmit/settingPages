@@ -15,9 +15,9 @@ import Form from 'react-bootstrap/Form';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDice,faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import './Config.css'
-import { dayManual } from '../types/dayManual';
+import { dayManual,weekDay } from '../types/dayManual';
 
-const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun' }) => {
+const Config = ({ day }: { day: weekDay }) => {
   const [alarms, setAlarms] = useRecoilState(dayAlarmState);
   const [gimmickNum, setGimmickNum] = React.useState(5);
   const [saveAlarms, setSaveAlarms] = React.useState(alarms);
@@ -132,7 +132,6 @@ const Config = ({ day }: { day: 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 
   function handleTimeChange(e: React.ChangeEvent<HTMLInputElement>) {
     //e.target.value(HH:mm)を(HHmm)に変換
     const time = e.target.value.split(':').join('');
-    console.log(time);
     updatedAlarmsStatus = { ...alarms, alarm: time };
     setAlarms(updatedAlarmsStatus);
   }

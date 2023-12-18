@@ -6,17 +6,17 @@ import { Link } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronLeft } from '@fortawesome/free-solid-svg-icons';
 import './Manual.css';
-import { dayManual } from '../types/dayManual';
+import { dayManual,weekDay } from '../types/dayManual';
 
 const Manual = () => {
 
   const [gimmickData, setGimmickData] = useState<dayManual>();
-  const [weekDay, setWeekDay] = useState<'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat' | 'sun'>('mon');
+  const [weekDay, setWeekDay] = useState<weekDay>('mon');
 
   useEffect(() => {
     //今日の曜日を取得
     const dayOfWeek = new Date().getDay();
-    const daysOfWeek: Array<'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat'> = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    const daysOfWeek: Array< weekDay > = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
     setWeekDay(daysOfWeek[dayOfWeek]);
     // 曜日ごとの設定情報をAPIから取得
     fetchDayAlarmSettingsFromAPI({day:weekDay})
@@ -283,7 +283,7 @@ const Manual = () => {
               onClick={async () => {
                 const days = ['sun','mon','tue','wed','thu','fri','sat'];
                 const day = days[new Date().getDay()];
-                await sendGimmickToAPI( {day} );
+                await sendGimmickToAPI({ day: day as weekDay});
               }}
             >
             お試し
