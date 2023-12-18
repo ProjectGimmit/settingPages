@@ -58,7 +58,7 @@ export async function sendDayTimerSettingToAPI({ day }: { day: string },data: Re
 //試しにギミックを実行する処理をサーバーに送信
 export async function sendGimmickToAPI({ day }: { day: weekDay }) {
   try {
-    const response = await fetch('http://127.0.0.1:8000/'+day);
+    const response = await fetch('http://127.0.0.1:8000/trial/'+day);
     const data = await response.json();
     return data;
   }
