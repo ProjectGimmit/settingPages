@@ -257,7 +257,7 @@ const Manual = () => {
           <span className='text-white fs-3 p-1 mx-auto'>Gimmit</span>
         </header>
         <div>
-          <span className='d-block mx-auto'>今日のアラームは未設定のため、マニュアルはありません。</span>
+          <img src="./images/error_logo.jpg" alt="" className='p-3 w-100' />
         </div>
       </div>
     );
