@@ -11,7 +11,7 @@ import { dayManual,weekDay } from '../types/dayManual';
 const Manual = () => {
 
   const [gimmickData, setGimmickData] = useState<dayManual>();
-  const [weekDay, setWeekDay] = useState<weekDay>('mon');
+  const [weekDay, setWeekDay] = useState<weekDay>();
 
   useEffect(() => {
     //今日の曜日を取得
@@ -19,7 +19,7 @@ const Manual = () => {
     const daysOfWeek: Array< weekDay > = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
     setWeekDay(daysOfWeek[dayOfWeek]);
     // 曜日ごとの設定情報をAPIから取得
-    fetchDayAlarmSettingsFromAPI({day:weekDay})
+    fetchDayAlarmSettingsFromAPI({day:daysOfWeek[dayOfWeek]})
       .then(data => setGimmickData(data as dayManual))
       .catch(error => console.error(error));
   }, []);
