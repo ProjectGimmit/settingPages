@@ -16,7 +16,7 @@ const Manual = () => {
 
   useEffect(() => {
     // 曜日ごとの設定情報をAPIから取得
-    fetchDayAlarmSettingsFromAPI({day:weekDay})
+    fetchDayAlarmSettingsFromAPI({day:daysOfWeek[dayOfWeek]})
       .then(data => setGimmickData(data as dayManual))
       .catch(error => console.error(error));
   }, [weekDay]);
