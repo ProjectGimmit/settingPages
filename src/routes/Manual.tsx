@@ -10,19 +10,16 @@ import { dayManual,weekDay } from '../types/dayManual';
 
 const Manual = () => {
 
+  const daysOfWeek: Array< weekDay > = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   const [gimmickData, setGimmickData] = useState<dayManual>();
-  const [weekDay, setWeekDay] = useState<weekDay>('mon');
+  const [weekDay, setWeekDay] = useState<weekDay>(daysOfWeek[new Date().getDay()]);
 
   useEffect(() => {
-    //今日の曜日を取得
-    const dayOfWeek = new Date().getDay();
-    const daysOfWeek: Array< weekDay > = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
-    setWeekDay(daysOfWeek[dayOfWeek]);
     // 曜日ごとの設定情報をAPIから取得
     fetchDayAlarmSettingsFromAPI({day:weekDay})
       .then(data => setGimmickData(data as dayManual))
       .catch(error => console.error(error));
-  }, []);
+  }, [weekDay]);
 
   const wireManual = (answer : [boolean,boolean,boolean,boolean]) => {
     //全てtrueの場合
@@ -281,8 +278,10 @@ const Manual = () => {
               variant="outline-dark"
               className='my-3 practice-btn'
               onClick={async () => {
-                const days = ['sun','mon','tue','wed','thu','fri','sat'];
-                const day = days[new Date().getDay()];
+                const day = daysOfWeek[new Date().getDay()];
+                if (day != weekDay) { // 日付が変更したら
+                  setWeekDay(day)
+                }
                 await sendGimmickToAPI({ day: day as weekDay});
               }}
             >
