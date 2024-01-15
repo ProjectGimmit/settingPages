@@ -45,7 +45,7 @@ const Key = () => {
         setAlarmsStatus({ ...alarmsStatus, gimmick: { ...alarmsStatus.gimmick, keySW: { ...alarmsStatus.gimmick.keySW, default: [isSolidIcon1, isSolidIcon2, !isSolidIcon3] } } });
     };
 
-    const handleSelectChange = (event: { target: { value: {value:1|2|3|4}; }; }) => {
+    const handleSelectChange = (event: { target: { value: string; }}) => {
         const selectedPattern = Number(event.target.value);
         switch (selectedPattern) {
             case 1:
