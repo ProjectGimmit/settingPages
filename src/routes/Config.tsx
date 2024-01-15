@@ -58,7 +58,6 @@ const Config = ({ day }: { day: weekDay }) => {
     return (
       <Modal
         {...props}
-        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
@@ -196,6 +195,18 @@ const Config = ({ day }: { day: weekDay }) => {
     randomLightsOut();
     //レベルメーターのランダム化
     randomLevel();
+
+    //全てのConfigComponentBoxを非表示にする
+    const componentBox = document.getElementsByClassName('configComponentBox') as HTMLCollectionOf<HTMLElement>;
+    for(let i = 0; i < componentBox.length; i++){
+      componentBox[i].style.display = 'none';
+    }
+    //RandomSettingBoxのd-noneを削除
+    const RandomSettingBox = document.getElementById('RandomSettingBox') as HTMLDivElement;
+    RandomSettingBox.classList.remove('d-none');
+    //RandomSettingBoxNumの値を変更
+    const RandomSettingBoxNum = document.getElementById('RandomSettingBoxNum') as HTMLSpanElement;
+    RandomSettingBoxNum.textContent = gimmickNum.toString();
   }
 
   function Check(gimmick : string) {
@@ -345,6 +356,17 @@ const Config = ({ day }: { day: weekDay }) => {
             <Button className='mt-3 btn-secondary' onClick={randomLevel}>ランダム設定</Button>
           </div>
         </div>
+      </div>
+      <div className='py-5 text-center d-none' id='RandomSettingBox'>
+        <p className='text-white mx-auto'><span id='RandomSettingBoxNum'></span>個のギミックがランダムに設定されました</p>
+        <Button className='d-block mx-auto btn btn-info' onClick={() => {
+          const componentBox = document.getElementsByClassName('configComponentBox') as HTMLCollectionOf<HTMLElement>;
+          for(let i = 0; i < componentBox.length; i++){
+            componentBox[i].style.display = 'block';
+          }
+          const RandomSettingBox = document.getElementById('RandomSettingBox') as HTMLDivElement;
+          RandomSettingBox.classList.add('d-none');
+        }}>設定を表示</Button>
       </div>
     </div>
     </div>

@@ -39,7 +39,7 @@ export async function sendDayAlarmSettingsToAPI({ day }: { day: weekDay },data: 
 }
 
 //曜日別アラームを設定をサーバーに送信
-export async function sendDayTimerSettingToAPI({ day }: { day: string },data: Record<string, any>) {
+export async function sendDayTimerSettingToAPI({ day }: { day: string },data: dayManual) {
   try {
     data['alarm'] = data['alarm'].replace(':','');
     await fetch('http://127.0.0.1:8000/alarm/'+day, {
