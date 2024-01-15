@@ -69,6 +69,10 @@ body{
     display: flex;
     justify-content: space-between;
  }
+
+ .form-check-label{
+    color: white!important;
+ }
  /* PC */
 @media screen and (min-width: 768px){
 	/* PCに適用するCSS*/
