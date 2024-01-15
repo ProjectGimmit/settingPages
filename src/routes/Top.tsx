@@ -1,5 +1,5 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { Accordion, AccordionContext, Card, Form, useAccordionButton } from 'react-bootstrap';
+import React, { useEffect, useState } from 'react';
+import { Accordion, Card, Form, useAccordionButton } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { fetchAlarmSettingsFromAPI, sendDayTimerSettingToAPI } from '../api/alarmApi';
 import './Top.css';
@@ -39,8 +39,8 @@ const Top: React.FC = () => {
     return chunks;
   }
 
-const GRAY = 'rgba(56, 56, 56, 0.6)';
-const BLACK = 'rgba(56, 56, 56, 0.6)';
+//const GRAY = 'rgba(56, 56, 56, 0.6)';
+//const BLACK = 'rgba(36, 36, 36, 0.6)';
 
 const [isToggled, setToggled] = useState<Record<string, boolean>>({});
 
@@ -52,19 +52,16 @@ const handleToggle = (label: string) => {
 };
 
 function ContextAwareToggle({ children, eventKey, callback }: { children: React.ReactNode, eventKey: string, callback?: (eventKey: string) => void }) {
-  const { activeEventKey } = useContext(AccordionContext);
 
   const decoratedOnClick = useAccordionButton(
     eventKey,
     () => callback && callback(eventKey),
   );
 
-  const isCurrentEventKey = activeEventKey === eventKey;
-
   return (
     <button
       type="button"
-      style={{ backgroundColor: isCurrentEventKey ? GRAY : BLACK }}
+      style={{ backgroundColor: '#373737'}}
       onClick={decoratedOnClick}
     >
       {children}
@@ -243,9 +240,9 @@ function ContextAwareToggle({ children, eventKey, callback }: { children: React.
               
               <ContextAwareToggle eventKey={day.label} callback={() => handleToggle(day.label)}>
                 {isToggled[day.label] ? (
-                  <FontAwesomeIcon icon={faChevronUp} style={{ color: "#ffffff"}} />
-                ) : (
                   <FontAwesomeIcon icon={faChevronDown} style={{ color: "#ffffff"}} />
+                ) : (
+                  <FontAwesomeIcon icon={faChevronUp} style={{ color: "#ffffff"}} />
                 )}
               </ContextAwareToggle>
             </Card.Header>
