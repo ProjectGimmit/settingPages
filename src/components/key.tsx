@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import { useEffect,useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { dayAlarmState } from '../states/alarmState'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
