@@ -6,6 +6,7 @@ export const alarmsState = atom({
     "mon": {
       "enable": true,
       "alarm": "1100",
+      "limit": 0,
       "gimmick": {
         "wires": {
           "enable": true,
@@ -33,6 +34,7 @@ export const alarmsState = atom({
     "tue": {
         "enable": true,
         "alarm": "1100",
+        "limit": 0,
         "gimmick": {
           "wires": {
             "enable": true,
@@ -60,6 +62,7 @@ export const alarmsState = atom({
     "wed": {
         "enable": true,
         "alarm": "1100",
+        "limit": 0,
         "gimmick": {
           "wires": {
             "enable": true,
@@ -87,6 +90,7 @@ export const alarmsState = atom({
     "thu": {
         "enable": true,
         "alarm": "1100",
+        "limit": 0,
         "gimmick": {
           "wires": {
             "enable": true,
@@ -114,6 +118,7 @@ export const alarmsState = atom({
     "fri": {
         "enable": true,
         "alarm": "1100",
+        "limit": 0,
         "gimmick": {
           "wires": {
             "enable": true,
@@ -141,6 +146,7 @@ export const alarmsState = atom({
     "sat": {
         "enable": true,
         "alarm": "1100",
+        "limit": 0,
         "gimmick": {
           "wires": {
             "enable": true,
@@ -168,6 +174,7 @@ export const alarmsState = atom({
     "sun": {
         "enable": true,
         "alarm": "1100",
+        "limit": 0,
         "gimmick": {
           "wires": {
             "enable": true,
@@ -200,6 +207,7 @@ export const dayAlarmState = atom({
   default: {
     "enable": true,
     "alarm": "1100",
+    "limit": 0,
     "gimmick": {
       "wires": {
         "enable": true,

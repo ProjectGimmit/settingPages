@@ -1,4 +1,4 @@
-import React, { useEffect,useState } from 'react';
+import { useEffect,useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil'
 import { dayAlarmState } from '../states/alarmState'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -45,7 +45,7 @@ const Key = () => {
         setAlarmsStatus({ ...alarmsStatus, gimmick: { ...alarmsStatus.gimmick, keySW: { ...alarmsStatus.gimmick.keySW, default: [isSolidIcon1, isSolidIcon2, !isSolidIcon3] } } });
     };
 
-    const handleSelectChange = (event: { target: { value: {value:1|2|3|4}; }; }) => {
+    const handleSelectChange = (event: { target: { value: string; }}) => {
         const selectedPattern = Number(event.target.value);
         switch (selectedPattern) {
             case 1:

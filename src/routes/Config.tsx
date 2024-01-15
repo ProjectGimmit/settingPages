@@ -58,7 +58,6 @@ const Config = ({ day }: { day: weekDay }) => {
     return (
       <Modal
         {...props}
-        size="lg"
         aria-labelledby="contained-modal-title-vcenter"
         centered
       >
@@ -100,6 +99,24 @@ const Config = ({ day }: { day: weekDay }) => {
     //タイマーの初期化
     const timer = document.getElementById('config-timer') as HTMLInputElement;
     timer.value = alarms.alarm.slice(0, 2) + ':' + alarms.alarm.slice(2, 4);
+    //ラジオボタンの初期化
+    const limit30 = document.getElementById('limit-30') as HTMLInputElement;
+    const limit60 = document.getElementById('limit-60') as HTMLInputElement;
+    const limit90 = document.getElementById('limit-90') as HTMLInputElement;
+    const limit120 = document.getElementById('limit-120') as HTMLInputElement;
+    if(alarms.limit === 30){
+      limit30.checked = true;
+    }
+    else if(alarms.limit === 60){
+      limit60.checked = true;
+    }
+    else if(alarms.limit === 90){
+      limit90.checked = true;
+    }
+    else if(alarms.limit === 120){
+      limit120.checked = true;
+    }
+
     //ワイヤーの初期化
     enableComponent('wires',alarms.gimmick.wires.enable);
     //トグルスイッチの初期化
@@ -196,6 +213,18 @@ const Config = ({ day }: { day: weekDay }) => {
     randomLightsOut();
     //レベルメーターのランダム化
     randomLevel();
+
+    //全てのConfigComponentBoxを非表示にする
+    const componentBox = document.getElementsByClassName('configComponentBox') as HTMLCollectionOf<HTMLElement>;
+    for(let i = 0; i < componentBox.length; i++){
+      componentBox[i].style.display = 'none';
+    }
+    //RandomSettingBoxのd-noneを削除
+    const RandomSettingBox = document.getElementById('RandomSettingBox') as HTMLDivElement;
+    RandomSettingBox.classList.remove('d-none');
+    //RandomSettingBoxNumの値を変更
+    const RandomSettingBoxNum = document.getElementById('RandomSettingBoxNum') as HTMLSpanElement;
+    RandomSettingBoxNum.textContent = gimmickNum.toString();
   }
 
   function Check(gimmick : string) {
@@ -228,6 +257,14 @@ const Config = ({ day }: { day: weekDay }) => {
       setGimmickNum(Number(e.target.value));
     }
   }
+
+  //name = 'limit'のラジオボタンが変更されたときの処理
+  function handleRadio(e: React.ChangeEvent<HTMLInputElement>) {
+    const limit = Number(e.target.value);
+    updatedAlarmsStatus = { ...alarms, limit: limit };
+    setAlarms(updatedAlarmsStatus);
+  }
+  
 
   return (
     <div className='configContainer'>
@@ -273,6 +310,45 @@ const Config = ({ day }: { day: weekDay }) => {
         </Form.Select>
         <span className='text-white mx-3'>個のギミックを</span>
         <Button onClick={Random} className='btn-secondary'><FontAwesomeIcon icon={faDice}  /> ランダムに設定</Button>
+      </div>
+      <div className='align-items-center my-2 mx-auto random-box py-2'>
+        <span className='text-white mx-3'>タイムリミット:</span>
+          {/* radio */}
+          <Form.Check
+            name='limit'
+            type='radio'
+            id='limit-30'
+            value={30}
+            label='30秒'
+            onChange={handleRadio}
+          />
+          <Form.Check
+            className='ms-4'
+            name='limit'
+            type='radio'
+            id='limit-60'
+            value={60}
+            label='60秒'
+            onChange={handleRadio}
+          />
+          <Form.Check
+            className='ms-4'
+            name='limit'
+            type='radio'
+            id='limit-90'
+            value={90}
+            label='90秒'
+            onChange={handleRadio}
+          />
+          <Form.Check
+            className='ms-4'
+            name='limit'
+            type='radio'
+            id='limit-120'
+            value={120}
+            label='120秒'
+            onChange={handleRadio}
+          />
       </div>
       <div className='configComponentBox'>
         <div className='configComponentBoxHeader'>
@@ -345,6 +421,17 @@ const Config = ({ day }: { day: weekDay }) => {
             <Button className='mt-3 btn-secondary' onClick={randomLevel}>ランダム設定</Button>
           </div>
         </div>
+      </div>
+      <div className='py-5 text-center d-none' id='RandomSettingBox'>
+        <p className='text-white mx-auto'><span id='RandomSettingBoxNum'></span>個のギミックがランダムに設定されました</p>
+        <Button className='d-block mx-auto btn btn-info' onClick={() => {
+          const componentBox = document.getElementsByClassName('configComponentBox') as HTMLCollectionOf<HTMLElement>;
+          for(let i = 0; i < componentBox.length; i++){
+            componentBox[i].style.display = 'block';
+          }
+          const RandomSettingBox = document.getElementById('RandomSettingBox') as HTMLDivElement;
+          RandomSettingBox.classList.add('d-none');
+        }}>設定を表示</Button>
       </div>
     </div>
     </div>

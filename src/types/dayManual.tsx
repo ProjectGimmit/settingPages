@@ -2,6 +2,7 @@
 export type dayManual = {
     enable: boolean;
     alarm: string;
+    limit: number;
     gimmick: {
       wires: {
         enable: boolean;
@@ -28,3 +29,15 @@ export type dayManual = {
   };
 
   export type weekDay = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
+
+  export type dayTimer = {
+    enable: boolean;
+    alarm: string;
+    limit: number;
+    gimmickEnable : [keySW: boolean, level: boolean, lightsOut: boolean, toggleSW: boolean, wires: boolean];
+  }
+
+  export type sendDayTimer = {
+    enable: boolean;
+    alarm: string;
+  }

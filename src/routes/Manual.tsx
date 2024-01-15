@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { Accordion, AccordionHeader} from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import { fetchDayAlarmSettingsFromAPI, sendGimmickToAPI } from '../api/alarmApi';

@@ -1,9 +1,9 @@
-import React from 'react'
 
 const Nomatch = () => {
   return (
     <div>
-        <p>このページは存在しません</p>
+      {/* 白文字 */}
+        <p className='text-white text-center'>このページは存在しません</p>
     </div>
   )
 }
