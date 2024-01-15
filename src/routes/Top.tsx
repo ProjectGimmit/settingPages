@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { Form } from 'react-bootstrap';
+import React, { useEffect, useState, useContext } from 'react';
+import { Accordion, AccordionContext, Card, Form, useAccordionButton } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { fetchAlarmSettingsFromAPI, sendDayTimerSettingToAPI } from '../api/alarmApi';
 import './Top.css';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 const Top: React.FC = () => {
   // fetchAlarmSettingsFromAPIで取得するalarmの型を定義
@@ -36,6 +38,39 @@ const Top: React.FC = () => {
     }
     return chunks;
   }
+
+const GRAY = 'rgba(56, 56, 56, 0.6)';
+const BLACK = 'rgba(56, 56, 56, 0.6)';
+
+const [isToggled, setToggled] = useState<Record<string, boolean>>({});
+
+const handleToggle = (label: string) => {
+  setToggled({
+    ...isToggled,
+    [label]: !isToggled[label],
+  });
+};
+
+function ContextAwareToggle({ children, eventKey, callback }: { children: React.ReactNode, eventKey: string, callback?: (eventKey: string) => void }) {
+  const { activeEventKey } = useContext(AccordionContext);
+
+  const decoratedOnClick = useAccordionButton(
+    eventKey,
+    () => callback && callback(eventKey),
+  );
+
+  const isCurrentEventKey = activeEventKey === eventKey;
+
+  return (
+    <button
+      type="button"
+      style={{ backgroundColor: isCurrentEventKey ? GRAY : BLACK }}
+      onClick={decoratedOnClick}
+    >
+      {children}
+    </button>
+  );
+}
 
   useEffect(() => {
     const fetchAlarmSettings = async () => {
@@ -178,30 +213,49 @@ const Top: React.FC = () => {
     <div className='timer-box'>
     {days.map((day) => (
       <div className='time-container' key={day.label}>
-        <span id={`label-of-${day.state[0].en}`} className='day-of-week ms-3'>{day.label}</span>
-        <Form.Control 
-          type="time" 
-          value={day.state[0].time} 
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
-            if (e.target.value !== '') {
-              handleTimeChange(day.label, e)
-            } 
-          }}
-          style={{ width: '40%' }}
-        />
-        <Link to={`/${day.state[0].en}/config`} className='setting-btn'>
-          <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 31 31" fill="none">
-            <path opacity="0.4" d="M15.8232 20.263C18.4537 20.263 20.5862 18.1305 20.5862 15.4999C20.5862 12.8693 18.4537 10.7368 15.8232 10.7368C13.1926 10.7368 11.0601 12.8693 11.0601 15.4999C11.0601 18.1305 13.1926 20.263 15.8232 20.263Z" stroke="white" strokeWidth="1.5" strokeLinecap="square"/>
-            <path d="M24.6112 24.1743L24.0455 20.2473L27.7291 18.7737V12.2265L24.0468 10.7534L24.6126 6.8257L18.9425 3.55208L15.8237 6.00597L12.705 3.55208L7.03488 6.8257L7.60051 10.7527L3.91663 12.2265V18.7737L7.6018 20.248L7.03627 24.1743L12.7064 27.4479L15.8237 24.9952L18.9411 27.4479L24.6112 24.1743Z" stroke="white" strokeWidth="1.5" strokeLinecap="square"/>
-          </svg>
-        </Link>
-        <Form.Check
-          type="switch"
-          /* 修正前id={`custom-switch-${day.label}`} */
-          id={`custom-switch-${day.state[0].en}`}
-          checked={day.state[0].checked}
-          onChange={(e) => handleCheckChange(day.label, e)}
-        />
+        <Accordion defaultActiveKey={day.label} className='custom-Accordion'>
+          <Card className='custom-Card'>
+            <Card.Header className='custom-CardHeader'>
+              <span id={`label-of-${day.state[0].en}`} className='day-of-week ms-3'>{day.label}</span>
+              <Form.Control 
+                type="time" 
+                value={day.state[0].time} 
+                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                  if (e.target.value !== '') {
+                    handleTimeChange(day.label, e)
+                  } 
+                }}
+                style={{ width: '40%' }}
+              />
+              <Link to={`/${day.state[0].en}/config`} className='setting-btn'>
+                <svg xmlns="http://www.w3.org/2000/svg" width="31" height="31" viewBox="0 0 31 31" fill="none">
+                  <path opacity="0.4" d="M15.8232 20.263C18.4537 20.263 20.5862 18.1305 20.5862 15.4999C20.5862 12.8693 18.4537 10.7368 15.8232 10.7368C13.1926 10.7368 11.0601 12.8693 11.0601 15.4999C11.0601 18.1305 13.1926 20.263 15.8232 20.263Z" stroke="white" strokeWidth="1.5" strokeLinecap="square"/>
+                  <path d="M24.6112 24.1743L24.0455 20.2473L27.7291 18.7737V12.2265L24.0468 10.7534L24.6126 6.8257L18.9425 3.55208L15.8237 6.00597L12.705 3.55208L7.03488 6.8257L7.60051 10.7527L3.91663 12.2265V18.7737L7.6018 20.248L7.03627 24.1743L12.7064 27.4479L15.8237 24.9952L18.9411 27.4479L24.6112 24.1743Z" stroke="white" strokeWidth="1.5" strokeLinecap="square"/>
+                </svg>
+              </Link>
+              <Form.Check
+                type="switch"
+                /* 修正前id={`custom-switch-${day.label}`} */
+                id={`custom-switch-${day.state[0].en}`}
+                checked={day.state[0].checked}
+                onChange={(e) => handleCheckChange(day.label, e)}
+              />
+              
+              <ContextAwareToggle eventKey={day.label} callback={() => handleToggle(day.label)}>
+                {isToggled[day.label] ? (
+                  <FontAwesomeIcon icon={faChevronUp} style={{ color: "#ffffff"}} />
+                ) : (
+                  <FontAwesomeIcon icon={faChevronDown} style={{ color: "#ffffff"}} />
+                )}
+              </ContextAwareToggle>
+            </Card.Header>
+          </Card>
+          <Accordion.Collapse eventKey={day.label}>
+            <Card.Body>
+              <div className='time'>{day.state[0].time}</div>
+            </Card.Body>
+          </Accordion.Collapse>
+        </Accordion>
       </div>
     ))}
     </div>

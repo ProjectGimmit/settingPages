@@ -43,13 +43,21 @@
     color: white;
     font-size: 20px;
 }
-.days-container {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-}
 .day {
     margin: auto;
+}
+.custom-Accordion {
+    width: 100%;
+    background-color: #1E1E1E!important;
+}
+.custom-Card {
+    background-color: #1E1E1E!important;
+}
+.custom-CardHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
 }
 #manual-btn {
     background-color: #373737;
