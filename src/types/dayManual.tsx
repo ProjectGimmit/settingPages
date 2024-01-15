@@ -28,3 +28,8 @@ export type dayManual = {
   };
 
   export type weekDay = "mon" | "tue" | "wed" | "thu" | "fri" | "sat" | "sun";
+
+  export type dayTimer = {
+    enable: boolean;
+    alarm: string;
+  }

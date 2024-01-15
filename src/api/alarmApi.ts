@@ -1,4 +1,4 @@
-import { dayManual,weekDay } from "../types/dayManual";
+import { dayManual,weekDay,dayTimer } from "../types/dayManual";
 
 //トップページ用API呼び出し
 export async function fetchAlarmSettingsFromAPI() {
@@ -39,7 +39,7 @@ export async function sendDayAlarmSettingsToAPI({ day }: { day: weekDay },data: 
 }
 
 //曜日別アラームを設定をサーバーに送信
-export async function sendDayTimerSettingToAPI({ day }: { day: string },data: dayManual) {
+export async function sendDayTimerSettingToAPI({ day }: { day: string },data: dayTimer) {
   try {
     data['alarm'] = data['alarm'].replace(':','');
     await fetch('http://127.0.0.1:8000/alarm/'+day, {
