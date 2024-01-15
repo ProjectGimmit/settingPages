@@ -3,7 +3,7 @@ import { useRecoilState, useRecoilValue } from 'recoil'
 import { dayAlarmState } from '../states/alarmState'
 import './wire.css';
 
-const WireLogic = ({ onMinusClick, isBanVisible, onBanClick, minusColor }) => {
+const WireLogic = ({ onMinusClick, isBanVisible, minusColor }: { onMinusClick: () => void, isBanVisible: boolean, minusColor: string }) => {
 return (
     <div style={{ position: 'relative', margin: '0 0px' }}>
     {!isBanVisible && (
@@ -54,7 +54,6 @@ const Wire = () => {
                 key={index}
                 onMinusClick={() => handleMinusClick(index)}
                 isBanVisible={isBanVisible}
-                onBanClick={() => handleMinusClick(index)}
                 minusColor={minusColors[index]}
             />
             ))}
