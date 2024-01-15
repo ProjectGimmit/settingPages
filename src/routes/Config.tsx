@@ -100,12 +100,12 @@ const Config = ({ day }: { day: weekDay }) => {
     const timer = document.getElementById('config-timer') as HTMLInputElement;
     timer.value = alarms.alarm.slice(0, 2) + ':' + alarms.alarm.slice(2, 4);
     //ラジオボタンの初期化
-    const limit30 = document.getElementById('limit-30') as HTMLInputElement;
+    const limit180 = document.getElementById('limit-180') as HTMLInputElement;
     const limit60 = document.getElementById('limit-60') as HTMLInputElement;
     const limit90 = document.getElementById('limit-90') as HTMLInputElement;
     const limit120 = document.getElementById('limit-120') as HTMLInputElement;
-    if(alarms.limit === 30){
-      limit30.checked = true;
+    if(alarms.limit === 180){
+      limit180.checked = true;
     }
     else if(alarms.limit === 60){
       limit60.checked = true;
@@ -317,15 +317,6 @@ const Config = ({ day }: { day: weekDay }) => {
           <Form.Check
             name='limit'
             type='radio'
-            id='limit-30'
-            value={30}
-            label='30秒'
-            onChange={handleRadio}
-          />
-          <Form.Check
-            className='ms-4'
-            name='limit'
-            type='radio'
             id='limit-60'
             value={60}
             label='60秒'
@@ -347,6 +338,15 @@ const Config = ({ day }: { day: weekDay }) => {
             id='limit-120'
             value={120}
             label='120秒'
+            onChange={handleRadio}
+          />
+          <Form.Check
+            className='ms-4'
+            name='limit'
+            type='radio'
+            id='limit-180'
+            value={180}
+            label='180秒'
             onChange={handleRadio}
           />
       </div>
