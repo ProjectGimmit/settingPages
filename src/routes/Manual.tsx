@@ -73,7 +73,7 @@ const Manual = () => {
     return (
       <div>
         <ul>
-          <li>左から赤・黄・緑・青の4本のワイヤーがあり、それぞれを正しい状態にすることでクリアとなる。</li>
+          <li>左から赤・黄・緑・青の4本のワイヤーがあり、<span style={{fontWeight: "bold"}}>それぞれを正しい状態にすることでクリアとなる。</span></li>
           <li>クリアパターンはアラームが設定される曜日ごとに決まっており、以下の表で対応する。</li>
         </ul>
         <table className='table'>
@@ -125,7 +125,7 @@ const Manual = () => {
     return (
       <div>
         <ul>
-          <li>各スイッチは左から順に、16,8,4,2,1の数値が割り当てられており、ONになっているスイッチの数値の合計がディスプレイに表示されている数値と一致した時、クリアとなる。</li>
+          <li>各スイッチは左から順に、16,8,4,2,1の数値が割り当てられており、<span style={{fontWeight: "bold"}}>ONになっているスイッチの数値の合計がディスプレイに表示されている数値と一致した時、クリアとなる。</span></li>
           <li>各スイッチは上にするとON、下にするとOFFになる。</li>
           <p>例）26を作る場合は以下のようになる。（16 + 8 + 2 = 26）</p>
         </ul>
@@ -139,10 +139,10 @@ const Manual = () => {
     return (
       <div>
         <ul>
-          <li>キースイッチは、各鍵の動作を駆使して３つの青色のランプをすべて点灯した状態にすることでクリアとなる。</li>
-          <li>各鍵の動作パターンは4パターンあり、右上の黄色のランプの状態を確認することで識別できます。</li>
+          <li>キースイッチは、各鍵の動作を駆使して３つの青色のランプを<span style={{fontWeight: "bold"}}>すべて点灯した状態にすることでクリアとなる。</span></li>
+          <li>各鍵の動作パターンは4パターンあり、<span style={{fontWeight: "bold"}}>右上の黄色のランプの状態</span>を確認することで識別できます。</li>
           <li>各鍵は左から、鍵A、鍵B、鍵Cとする。</li>
-          <ul>
+          {/* <ul>
             <li>どちらも点灯していない場合</li>
             <div className='manual-pattern-box'>
               <p>鍵A：1番左のランプを点灯</p>
@@ -167,8 +167,108 @@ const Manual = () => {
               <p>鍵B：すべてのランプを反転</p>
               <p>鍵C：1番左のランプを点灯</p>
             </div>
-          </ul>
+          </ul> */}
         </ul>
+        <div className='manual-pattern-box-flex'>
+              <div className='pattern'>
+                <p>点灯状態</p>
+                <img src="./images/pattern_1.png" alt="" className='' style={{height: "30px"}} />
+              </div>
+              <div className='inner'>
+                  <div>鍵A</div>
+                  <div>鍵B</div>
+                  <div>鍵C</div>
+                  <div>
+                    <p>左のランプを</p>
+                    <p>点灯</p>
+                  </div>
+                  <div>
+                    <p>すべてのランプを</p>
+                    <p>反転</p>
+                  </div>
+                  <div>
+                    <p>右のランプを</p>
+                    <p>消灯</p>
+                  </div>
+              </div>
+        </div>
+        <div style={{height: "30px"}}></div>
+
+        <div className='manual-pattern-box-flex'>
+              <div className='pattern'>
+                <p>点灯状態</p>
+                <img src="./images/pattern_2.png" alt="" className='' style={{height: "30px"}} />
+              </div>
+              <div className='inner'>
+                  <div>鍵A</div>
+                  <div>鍵B</div>
+                  <div>鍵C</div>
+                  <div>
+                    <p>すべてのランプを</p>
+                    <p>反転</p>
+                  </div>
+                  <div>
+                    <p>左のランプを</p>
+                    <p>点灯</p>
+                  </div>
+                  <div>
+                    <p>右のランプを</p>
+                    <p>消灯</p>
+                  </div>
+              </div>
+        </div>
+        <div style={{height: "30px"}}></div>
+
+        <div className='manual-pattern-box-flex'>
+              <div className='pattern'>
+                <p>点灯状態</p>
+                <img src="./images/pattern_3.png" alt="" className='' style={{height: "30px"}} />
+              </div>
+              <div className='inner'>
+                  <div>鍵A</div>
+                  <div>鍵B</div>
+                  <div>鍵C</div>
+                  <div>
+                    <p>左のランプを</p>
+                    <p>点灯</p>
+                  </div>
+                  <div>
+                    <p>右のランプを</p>
+                    <p>消灯</p>
+                  </div>
+                  <div>
+                    <p>すべてのランプを</p>
+                    <p>反転</p>
+                  </div>
+              </div>
+        </div>
+        <div style={{height: "30px"}}></div>
+
+        <div className='manual-pattern-box-flex'>
+              <div className='pattern'>
+                <p>点灯状態</p>
+                <img src="./images/pattern_4.png" alt="" className='' style={{height: "30px"}} />
+              </div>
+              <div className='inner'>
+                  <div>鍵A</div>
+                  <div>鍵B</div>
+                  <div>鍵C</div>
+                  <div>
+                    <p>右のランプを</p>
+                    <p>消灯</p>
+                  </div>
+                  <div>
+                    <p>すべてのランプを</p>
+                    <p>反転</p>
+                  </div>
+                  <div>
+                    <p>左のランプを</p>
+                    <p>点灯</p>
+                  </div>
+              </div>
+        </div>
+        <div style={{height: "30px"}}></div>
+
       </div>
     );
   }
@@ -178,7 +278,7 @@ const Manual = () => {
     return (
       <div>
         <ul>
-          <li>3×3の合計9個のライト全てが消灯している状態を作ることが出来ればクリアとなる。</li>
+          <li>3×3の合計9個のライト<span style={{fontWeight: "bold"}}>全てが消灯している状態を作ることが出来ればクリアとなる。</span></li>
           <li>押したボタンを基準に、上下左右の十字の位置にあるライトが反転する。つまり、点灯していたものは消灯に、消灯していたものは点灯に変わる。</li>
         </ul>
         <p>例）赤枠で囲まれている真ん中のライトを押した場合</p>
@@ -206,7 +306,7 @@ const Manual = () => {
     return (
       <div>
         <ul>
-          <li>LEDの光っている数によってレベルが0~10の状態が表され、正しいレベルに3秒間合わせることでクリアとなる。</li>
+          <li>LEDの光っている数によってレベルが0~10の状態が表され、<span style={{fontWeight: "bold"}}>正しいレベルに3秒間合わせることでクリアとなる。</span></li>
           <li>LEDの下のつまみを回すことでレベルの上下をすることができる。</li>
           <li>LEDは左から順番に1からレベルの数だけ点灯していく。</li>
         </ul>
@@ -302,7 +402,7 @@ const Manual = () => {
             <p>クリア済みのギミックです。</p>
           </ul>
           <li>必要なギミックをすべてクリアしたら、解除ボタンを押してください。</li>
-          <li><span className='text-danger'>どうしても解除できない場合は側面の緊急停止ボタンを押してください。</span></li>
+          <li><span className='text-danger'>どうしても解除できない場合は<span style={{fontWeight: "bold"}}>側面の緊急停止ボタン</span>を押してください。</span></li>
         </ul>
       </div>
       <div className='manual-accordion-box'>
