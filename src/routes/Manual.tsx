@@ -114,6 +114,7 @@ const Manual = () => {
             </tr>
           </tbody>
         </table>
+        <span className='text-danger'>※実機では設定によってクリアパターンは変わります。</span>
       </div>
     );
     }
@@ -338,6 +339,7 @@ const Manual = () => {
             </tr>
           </tbody>
         </table>
+        <span className='text-danger'>※実機では設定によって正解のレベルは変わります。</span>
       </div>
     );
   }
@@ -363,33 +365,21 @@ const Manual = () => {
   return (
     <div className='manual-body'>
       <header className='manual-header p-3 sticky-top d-flex align-items-center justify-content-between'>
-        <div className='manual-back'>
-          <Link to={'/'}>
-            <FontAwesomeIcon icon={faChevronLeft} />
-          </Link>
-        </div>
-        <span className='text-white fs-3'>Gimmit</span>
+        <span className='text-white fs-3 mx-auto'>Gimmit</span>
         <div className='manual-header-empty'></div>
       </header>
       <div className='manual-text-box'>
-        <div className='manual-head-box'>
-          <span className='h2 my-3'>マニュアル </span>
-          <Button 
-              variant="outline-dark"
-              className='my-3 practice-btn'
-              onClick={async () => {
-                const day = daysOfWeek[new Date().getDay()];
-                if (day != weekDay) { // 日付が変更したら
-                  setWeekDay(day)
-                }
-                await sendGimmickToAPI({ day: day as weekDay});
-              }}
-            >
-            お試し
-          </Button>
-        </div>
-        <p>これは、爆弾解除をモチーフに作られた新感覚目覚まし時計です。</p>
-        <p>あなたは以下のマニュアルをよく読んで制限時間内に必要なギミックをすべてクリアし、アラーム解除を目指してください。</p>
+        <span className='h2 my-3 d-block'>Gimmitとは</span>
+        <p>Gimmitとは爆弾解除をモチーフとした新感覚のIoT目覚まし時計です。</p>
+        <p>Gimmitは、ギミックを切り抜け目覚ましを止めろ！というコンセプトのもと、ユーザーが用意された様々な"Gimmick"を"Time Limit"までにすべて解除する、本物の爆弾解除のような体験をしてもらうことができる目覚まし時計となっています。</p>
+        <p>Gimmitの利用方法としては設定方法と解除方法の2つの操作があります。</p>
+        <span className='h2 my-3 d-block'>設定方法</span>
+        <p>設定方法では、「Gimmit」のWEBアプリにて、アラームを鳴らしたい曜日の時間を設定します。</p>
+        <p>次に、その曜日の設定ボタンを押し、設定画面にて各ギミックの初期状態や、どのギミックを作動させるかなどの設定を行います。</p>
+        <span className='h2 my-3 d-block'>解除方法</span>
+        <p>設定した時間になるとアラームが鳴りだします。</p>
+        <p>以下はマニュアルの例です。実際の内容とは多少異なります。</p>
+        <hr />
         <span className='h2 my-3 d-block'>解除までの流れ</span>
         <ul>
           <li>アラーム解除に必要なギミックは左上にあるランプの状態で決まります。</li>
