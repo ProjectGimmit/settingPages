@@ -262,7 +262,7 @@ function ContextAwareToggle({ children, eventKey, callback }: { children: React.
           <Accordion.Collapse eventKey={day.label}>
             <Card.Body>
               <Container>
-              <Row className='align-items-stretch'>
+              <Row className='align-items-center'>
                 <Col xs={8} sm={8}>
                   <div className='gimmick'>
                     {gimmickSettings && gimmickSettings[day.state[0].en] && gimmickSettings[day.state[0].en].gimmickEnable && 
