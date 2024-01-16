@@ -59,6 +59,13 @@
     align-items: center;
     width: 100%;
 }
+.gimmick-box {
+}
+.gimmick {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
 #manual-btn {
     background-color: #373737;
 }

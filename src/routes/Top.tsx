@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Accordion, Card, Form, useAccordionButton } from 'react-bootstrap';
+import { Accordion, Card, Col, Container, Form, Row, useAccordionButton } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import { fetchAlarmSettingsFromAPI, sendDayTimerSettingToAPI } from '../api/alarmApi';
 import './Top.css';
@@ -8,15 +8,24 @@ import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 
 const Top: React.FC = () => {
   // fetchAlarmSettingsFromAPIで取得するalarmの型を定義
+  type GimmickEnable = {
+    [key: string]: boolean;
+    keySW: boolean;
+    level: boolean;
+    lightsOut: boolean;
+    toggleSW: boolean;
+    wires: boolean;
+  };
+
   type AlarmSetting = {
-    mon: { enable: boolean, alarm: string },
-    tue: { enable: boolean, alarm: string },
-    wed: { enable: boolean, alarm: string },
-    thu: { enable: boolean, alarm: string },
-    fri: { enable: boolean, alarm: string },
-    sat: { enable: boolean, alarm: string },
-    sun: { enable: boolean, alarm: string },
-  }
+    [key: string]: {
+      enable: boolean;
+      alarm: string;
+      gimmickEnable: GimmickEnable;
+      limit: number;
+    };
+  };
+  
 
   const [time, setTime] = useState("00:00:00");
 
@@ -69,6 +78,8 @@ function ContextAwareToggle({ children, eventKey, callback }: { children: React.
   );
 }
 
+  const [gimmickSettings, setGimmickSettings] = useState<AlarmSetting>();
+
   useEffect(() => {
     const fetchAlarmSettings = async () => {
       const alarmSettings: AlarmSetting = await fetchAlarmSettingsFromAPI();
@@ -82,6 +93,7 @@ function ContextAwareToggle({ children, eventKey, callback }: { children: React.
         { label: '日', state: [{ day: 0, time: splitIntoChunks(alarmSettings.sun.alarm, 2).join(':'), checked: alarmSettings.sun.enable, en: "sun" }] },
       ];
       setDays(newDays);
+      setGimmickSettings(alarmSettings);
     };
 
     fetchAlarmSettings();
@@ -213,7 +225,7 @@ function ContextAwareToggle({ children, eventKey, callback }: { children: React.
         <Accordion defaultActiveKey={day.label} className='custom-Accordion'>
           <Card className='custom-Card'>
             <Card.Header className='custom-CardHeader'>
-              <span id={`label-of-${day.state[0].en}`} className='day-of-week ms-3'>{day.label}</span>
+              <span id={`label-of-${day.state[0].en}`} className='day-of-week ms-3 me-3'>{day.label}</span>
               <Form.Control 
                 type="time" 
                 value={day.state[0].time} 
@@ -237,7 +249,7 @@ function ContextAwareToggle({ children, eventKey, callback }: { children: React.
                 checked={day.state[0].checked}
                 onChange={(e) => handleCheckChange(day.label, e)}
               />
-              
+
               <ContextAwareToggle eventKey={day.label} callback={() => handleToggle(day.label)}>
                 {isToggled[day.label] ? (
                   <FontAwesomeIcon icon={faChevronDown} style={{ color: "#ffffff"}} />
@@ -249,7 +261,67 @@ function ContextAwareToggle({ children, eventKey, callback }: { children: React.
           </Card>
           <Accordion.Collapse eventKey={day.label}>
             <Card.Body>
-              <div className='time'>{day.state[0].time}</div>
+              <Container>
+              <Row className='align-items-stretch'>
+                <Col xs={8} sm={8}>
+                  <div className='gimmick'>
+                    {gimmickSettings && gimmickSettings[day.state[0].en] && gimmickSettings[day.state[0].en].gimmickEnable && 
+                      Object.keys(gimmickSettings[day.state[0].en].gimmickEnable)
+                        .filter(key => gimmickSettings[day.state[0].en].gimmickEnable[key] === true)
+                        .map((name, index) => (
+                          <React.Fragment key={index}>
+                          {name === 'keySW' ? (
+                          <svg xmlns="http://www.w3.org/2000/svg" width="11" height="22" viewBox="0 0 11 22" fill="none" style={{marginRight: '10px'}}>
+                            <rect x="4" y="10" width="3" height="12" fill="white"/>
+                            <rect x="7" y="15" width="3" height="2" fill="white"/>
+                            <rect x="7" y="20" width="3" height="2" fill="white"/>
+                            <circle cx="5.5" cy="5.5" r="4.25" stroke="white" stroke-width="2.5"/>
+                          </svg>
+                          ) : name === 'level' ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="15" viewBox="0 0 22 15" fill="none">
+                              <rect x="1" y="1" width="20" height="13" stroke="white" stroke-width="2"/>
+                              <rect x="4" y="4" width="2" height="7" fill="white"/>
+                              <rect x="7" y="4" width="2" height="7" fill="white"/>
+                              <rect x="10" y="4" width="2" height="7" fill="white"/>
+                              <rect x="13" y="4" width="2" height="7" fill="white"/>
+                              <rect x="16" y="4" width="2" height="7" fill="white"/>
+                            </svg>
+                          ) : name === 'lightsOut' ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="19" height="19" viewBox="0 0 19 19" fill="none" style={{marginRight: '10px'}}>
+                              <rect width="5" height="5" fill="white"/>
+                              <rect x="7" width="5" height="5" fill="white"/>
+                              <rect x="14" width="5" height="5" fill="white"/>
+                              <rect y="7" width="5" height="5" fill="white"/>
+                              <rect x="7" y="7" width="5" height="5" fill="white"/>
+                              <rect x="14" y="7" width="5" height="5" fill="white"/>
+                              <rect y="14" width="5" height="5" fill="white"/>
+                              <rect x="7" y="14" width="5" height="5" fill="white"/>
+                              <rect x="14" y="14" width="5" height="5" fill="white"/>
+                            </svg>
+                          ) : name === 'toggleSW' ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="17" height="21" viewBox="0 0 17 21" fill="none" style={{marginRight: '10px'}}>
+                              <ellipse cx="8.5" cy="17" rx="8.5" ry="4" fill="white"/>
+                              <rect x="4" y="2" width="9" height="14" fill="white"/>
+                              <ellipse cx="8.5" cy="2.5" rx="4.5" ry="2.5" fill="white"/>
+                              <path d="M15 16.4654C15 17.8461 12.3137 18.9654 9 18.9654C5.68629 18.9654 3 17.8461 3 16.4654C3 15.0847 5.68629 13.9654 9 13.9654C12.3137 13.9654 15 15.0847 15 16.4654Z" fill="white"/>
+                            </svg>
+                          ) : name === 'wires' ? (
+                            <svg xmlns="http://www.w3.org/2000/svg" width="8" height="28" viewBox="0 0 8 28" fill="none" style={{marginRight: '10px'}}>
+                              <rect y="6" width="8" height="7" fill="white"/>
+                              <rect y="15" width="8" height="7" fill="white"/>
+                              <path d="M3 0H5V6H3V0Z" fill="white"/>
+                              <rect x="3" y="22" width="2" height="6" fill="white"/>
+                            </svg>
+                          ): null}
+                          </React.Fragment>
+                    ))}
+                  </div>
+                </Col>
+                <Col xs={4} sm={4}>
+                    <span className='fs-4'>{gimmickSettings?.[day.state[0].en]?.limit}</span>sec
+                </Col>
+              </Row>
+              </Container>
             </Card.Body>
           </Accordion.Collapse>
         </Accordion>
