@@ -372,23 +372,37 @@ const Manual = () => {
         <span className='h2 my-3 d-block'>Gimmitとは</span>
         <p>Gimmitとは爆弾解除をモチーフとした新感覚のIoT目覚まし時計です。</p>
         <p>Gimmitは、ギミックを切り抜け目覚ましを止めろ！というコンセプトのもと、ユーザーが用意された様々な"Gimmick"を"Time Limit"までにすべて解除する、本物の爆弾解除のような体験をしてもらうことができる目覚まし時計となっています。</p>
+        <p>目覚まし時計の本体は以下の画像のようになっています。</p>
+        <span style={{fontSize: "0.8rem"}} className='text-muted'>▼本体画像</span>
+        <img src="./images/Manual01.png" alt="目覚まし時計本体解説" className='p-3 w-100'/>
         <p>Gimmitの利用方法としては設定方法と解除方法の2つの操作があります。</p>
         <span className='h2 my-3 d-block'>設定方法</span>
-        <p>設定方法では、「Gimmit」のWEBアプリにて、アラームを鳴らしたい曜日の時間を設定します。</p>
-        <p>次に、その曜日の設定ボタンを押し、設定画面にて各ギミックの初期状態や、どのギミックを作動させるかなどの設定を行います。</p>
+        <p>GimmitのWEBアプリにて、設定をすることができます。</p>
+        <p>トップページでは各曜日のアラーム時間と、アラームのON,OFFの設定ができます。</p>
+        <span style={{fontSize: "0.8rem"}} className='text-muted'>▼トップページ</span>
+        <img src="./images/ss1.png" alt="" className='p-3 w-100'/>
+        <p>各曜日の歯車マークの設定ボタンを押すと設定ページを開くことができ、各ギミックの初期状態や、どのギミックを作動させるかなどの設定ができます。</p>
+        <span style={{fontSize: "0.8rem"}} className='text-muted'>▼設定ページ</span>
+        <img src="./images/ss2.png" alt="" className='p-3 w-100'/>
         <span className='h2 my-3 d-block'>解除方法</span>
         <p>設定した時間になるとアラームが鳴りだします。</p>
+        <img src="./images/Manual02.png" alt="目覚まし時計本体解説" className='p-3 w-50 mx-auto'/>
+        <p>アラームを止めるには、本体の右下にある上の画像の<span className='text-danger'>赤い解除ボタン</span>を<span className='fw-bold'>1回</span>押してください。</p>
+        <p>アラームを止めるとゲーム開始となり、右上に表示される制限時間内に赤色のランプが点灯しているギミックをマニュアルを参考にしてクリアしてください。</p>
         <p>以下はマニュアルの例です。実際の内容とは多少異なります。</p>
         <hr />
         <span className='h2 my-3 d-block'>解除までの流れ</span>
         <ul>
-          <li>アラーム解除に必要なギミックは左上にあるランプの状態で決まります。</li>
+          <li>アラーム解除に必要なギミックは各ギミックの左上にあるランプの状態で決まります。</li>
           <ul>
             <li>どちらも点灯していない場合</li>
+            <img src="./images/pattern_1.png" alt="" className='m-3' style={{height: "30px"}} />
             <p>今日そのギミックはクリアする必要はありません。</p>
             <li>赤色のランプが点灯している場合</li>
+            <img src="./images/gimmick_1.png" alt="" className='m-3' style={{height: "30px"}} />
             <p>まだクリアできていないギミックです。</p>
             <li>緑色のランプが点灯している場合</li>
+            <img src="./images/gimmick_2.png" alt="" className='m-3' style={{height: "30px"}} />
             <p>クリア済みのギミックです。</p>
           </ul>
           <li>必要なギミックをすべてクリアしたら、解除ボタンを押してください。</li>
